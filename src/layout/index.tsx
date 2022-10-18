@@ -1,10 +1,10 @@
 import React from 'react'
-import './index.less'
+import style from './index.module.less'
 import { Outlet } from 'react-router-dom'
 
 const Home = () => {
   return (
-    <div className="layout">
+    <div className={style.layout}>
       <Outlet />
     </div>
   )

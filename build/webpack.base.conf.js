@@ -77,6 +77,7 @@ module.exports = {
           {
             loader: 'less-loader',
             options: {
+              modules: true,
               lessOptions: {
                 modifyVars: {
                   '@ant-prefix': 'r'
