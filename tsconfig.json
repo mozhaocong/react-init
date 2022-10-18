@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "allowJs": true,
     "baseUrl": ".",
     "module": "esnext",
@@ -9,13 +10,11 @@
     "jsx": "react-jsx",
     "types": ["node"],
     "moduleResolution": "node",
-    "rootDir": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom"],
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
+  "include": ["src/*", "build/*"],
   "exclude": ["node_modules"]
 }
