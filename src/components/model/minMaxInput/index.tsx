@@ -2,8 +2,18 @@ import React, { Component } from 'react'
 import { InputNumber } from 'antd'
 import { isEmpty, isNil } from 'ramda'
 
-export default class minMaxInput extends Component {
-  constructor(props) {
+type props = {
+  onChange: (item: any) => void
+  value: ObjectMap
+  minProp: ObjectMap
+  maxProp: ObjectMap
+  disabled: boolean
+  style: ObjectMap
+  width: string
+}
+
+export default class minMaxInput extends Component<props> {
+  constructor(props: props) {
     super(props)
   }
 
@@ -28,8 +38,7 @@ export default class minMaxInput extends Component {
 
   minMaxBlur = () => {
     setTimeout(() => {
-      let { value, onChange } = this.props
-      console.log('value', value)
+      const { value, onChange } = this.props
       if (!value) {
         return
       }
@@ -56,7 +65,8 @@ export default class minMaxInput extends Component {
   }
 
   render() {
-    let { value, minProp, maxProp, disabled, style, width } = this.props
+    let { value } = this.props
+    const { minProp, maxProp, disabled, style, width } = this.props
     if (!value) {
       value = {}
     }
