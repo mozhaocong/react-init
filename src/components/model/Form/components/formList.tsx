@@ -3,8 +3,9 @@ import { Form } from 'antd'
 import RForm from '../index'
 import FormItem from './formItem'
 import { getFormName } from '../uitls'
+import { _FormListType } from '@/components/model/Form/indexType'
 
-const FormList = (props) => {
+const _FormList = (props: _FormListType) => {
   const {
     name = '',
     columns = [],
@@ -38,12 +39,12 @@ const FormList = (props) => {
                             value,
                             valueData,
                             setValue,
+                            publicProps,
                             res,
                             index,
                             add,
                             remove,
-                            field,
-                            publicProps
+                            field
                           }
                         }}
                       />
@@ -65,4 +66,4 @@ const FormList = (props) => {
   }
 }
 
-export default FormList
+export default _FormList

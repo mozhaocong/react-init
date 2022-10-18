@@ -3,9 +3,11 @@ import { isArray, isFunctionOfOther, isTrue } from 'html-mzc-tool'
 import FormItem from './formItem'
 import { Table } from 'antd'
 import { getFormName, getFormValueFromName } from '../uitls'
+import RForm from '@/components/model/Form'
+import { _FormTableType } from '@/components/model/Form/indexType'
 
-const FormTable = (props) => {
-  const { value, columns, name, rowKey } = props
+const _FormTable = (props: _FormTableType) => {
+  const { value, columns, name, rowKey, isForm = true, ...attrs } = props
   const [data, setData] = useState([])
   const [formValue, setFormValue] = useState([])
   useEffect(() => {
@@ -26,6 +28,7 @@ const FormTable = (props) => {
       const { dataIndex } = item
       if (isTrue(item.render)) {
         const oldRender = item.render
+        // @ts-ignore
         item.render = (item, itemB, index) => {
           return (
             <FormItem
@@ -39,7 +42,19 @@ const FormTable = (props) => {
     })
   }, [columns])
 
-  return <Table columns={tableColumns} dataSource={data} />
+  const config = {
+    render() {
+      return <Table columns={tableColumns} dataSource={data} />
+    }
+  }
+
+  return config.render()
+
+  if (isForm) {
+    return <RForm {...{ columns: [{ ...config }], value, ...attrs }} />
+  } else {
+    return config.render()
+  }
 }
 
-export default FormTable
+export default _FormTable

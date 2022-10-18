@@ -1,9 +1,12 @@
 import { Form, Row, Spin } from 'antd'
 import React, { useEffect, useRef } from 'react'
-import { setFormDefValue } from '@/components/model/Form/uitls'
+import { setFormDefValue, useFormData } from './uitls'
 import FormItem from './components/formItem'
+import FormList from './components/formList'
+import FormTable from './components/formTable'
+import { _FormType } from '@/components/model/Form/indexType'
 
-const App = (props) => {
+const _Form = (props: _FormType) => {
   const {
     fId,
     loading,
@@ -20,6 +23,7 @@ const App = (props) => {
     valueData,
     setValue,
     publicProps = {},
+    onFinish: propsOnFinish,
     ...attrs
   } = props
   let [form] = Form.useForm()
@@ -28,9 +32,8 @@ const App = (props) => {
   }
   const isInitialValues = useRef(true)
   const onFinish = (values) => {
-    const { handleSubmit } = props
-    if (handleSubmit) {
-      handleSubmit(values)
+    if (propsOnFinish) {
+      propsOnFinish(values)
     }
   }
 
@@ -110,5 +113,10 @@ const App = (props) => {
   )
 }
 
-export { App as default }
-App.setFormDefValue = setFormDefValue
+export { _Form as default }
+// 大写是组件 小写是方法
+_Form.setFormDefValue = setFormDefValue
+_Form.useFormData = useFormData
+_Form.FormList = FormList
+_Form.FormTable = FormTable
+_Form.FormItem = FormItem
