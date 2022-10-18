@@ -15,6 +15,6 @@
     },
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/*", "build/*"],
+  "include": ["src/*", "src/**/*","build/*"],
   "exclude": ["node_modules"]
 }

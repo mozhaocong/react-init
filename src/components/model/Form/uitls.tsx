@@ -30,6 +30,7 @@ export const getFormName = (fieldName, name) => {
   return data
 }
 
+// 防抖 避免多少触发更新
 const setValueDebounce = debounce(setValueMethod, 10)
 function setValueMethod(item, stateData) {
   const { value, setValue } = stateData

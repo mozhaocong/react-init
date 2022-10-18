@@ -2,10 +2,15 @@
 import React, { useEffect } from 'react'
 import routes from '@/routes'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Interceptor } from '@/routes/test'
 import zhCN from 'antd/es/locale/zh_CN'
 import { ConfigProvider } from 'antd'
 import { isTrue } from 'html-mzc-tool'
+
+export function Interceptor(pros) {
+  const { route } = pros
+  const RenderCom = route.component
+  return <RenderCom route={route} />
+}
 
 const App = () => {
   function setRouter() {
@@ -34,10 +39,7 @@ const App = () => {
   return (
     // @ts-ignore
     <ConfigProvider locale={zhCN}>
-      <BrowserRouter
-        /*@ts-ignore*/
-        basename={window?.__MICRO_APP_BASE_ROUTE__ || '/admin-ht-child'}
-      >
+      <BrowserRouter>
         <Routes>{setRouter()}</Routes>
       </BrowserRouter>
     </ConfigProvider>

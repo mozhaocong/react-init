@@ -1,5 +1,5 @@
 import React from 'react'
-import { isFunctionOfOther } from '@/uitls'
+import { isFunctionOfOther } from 'html-mzc-tool'
 import { Col, Form } from 'antd'
 
 const View = (props) => {

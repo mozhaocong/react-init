@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { isArray, isFunctionOfOther, isTrue } from '@ht/html-tool'
+import { isArray, isFunctionOfOther, isTrue } from 'html-mzc-tool'
 import FormItem from './formItem'
 import { Table } from 'antd'
 import { getFormName, getFormValueFromName } from '../uitls'
