@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack serve  --config build/webpack.dev.conf.js "
+    "dev": "webpack serve  --config build/webpack.dev.conf.js ",
+    "lint": "eslint src --fix"
   },
   "author": "",
   "license": "ISC",

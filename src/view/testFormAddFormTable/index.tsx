@@ -51,13 +51,6 @@ const View = () => {
     <div>
       <div>testFormTable</div>
       <div>
-        <FormTable
-          value={value}
-          name={'test'}
-          columns={mergedColumns}
-          onChange={setValue}
-          setValue={setValue}
-        />
         <HtForm
           columns={rowList}
           value={value}

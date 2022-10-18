@@ -3,8 +3,8 @@ import { isArray, isFunctionOfOther, isTrue } from 'html-mzc-tool'
 import FormItem from './formItem'
 import { Table } from 'antd'
 import { getFormName, getFormValueFromName } from '../uitls'
-import RForm from '@/components/model/Form'
-import { _FormTableType } from '@/components/model/Form/indexType'
+import RForm from '../index'
+import { _FormTableType } from '../indexType'
 
 const _FormTable = (props: _FormTableType) => {
   const { value, columns, name, rowKey, isForm = true, ...attrs } = props
@@ -13,6 +13,7 @@ const _FormTable = (props: _FormTableType) => {
   useEffect(() => {
     const formData = getFormValueFromName(value, name)
     if (isArray(formData) && formValue.length !== formData.length) {
+      console.log('123456789')
       setData(
         formData.map((item: any, index) => {
           item.key = isTrue(rowKey) ? isFunctionOfOther(rowKey, item) : index
