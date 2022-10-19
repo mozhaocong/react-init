@@ -3,11 +3,16 @@ import TestForm from '@/view/testForm'
 import TestFormList from '@/view/testFormList'
 import TestFormAddFormList from '@/view/testFormAddFormList'
 import TestFormTable from '@/view/testFormTable'
+import Search from '@/view/search'
 const routes: any = [
   {
     path: '/',
     component: layout,
     children: [
+      {
+        path: 'search',
+        component: Search
+      },
       {
         path: 'testForm',
         component: TestForm
