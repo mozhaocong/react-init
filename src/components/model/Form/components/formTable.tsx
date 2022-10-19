@@ -13,7 +13,6 @@ const _FormTable = (props: _FormTableType) => {
   useEffect(() => {
     const formData = getFormValueFromName(value, name)
     if (isArray(formData) && formValue.length !== formData.length) {
-      console.log('123456789')
       setData(
         formData.map((item: any, index) => {
           item.key = isTrue(rowKey) ? isFunctionOfOther(rowKey, item) : index
@@ -25,16 +24,32 @@ const _FormTable = (props: _FormTableType) => {
   }, [value, name])
 
   const tableColumns = useMemo(() => {
+    const formValueData = getFormValueFromName(value, name)
+    const { valueData, setValue, publicProps } = attrs
     return columns.map((item) => {
       const { dataIndex } = item
       if (isTrue(item.render)) {
         const oldRender = item.render
         // @ts-ignore
-        item.render = (item, itemB, index) => {
+        item.render = (text, record, index) => {
+          const renderProps = {
+            text: getFormValueFromName(formValueData[index], dataIndex),
+            record: formValueData[index],
+            index,
+            item,
+            value,
+            valueData,
+            setValue,
+            publicProps
+          }
           return (
             <FormItem
-              component={() => oldRender(item, itemB, index, value)}
+              col={24}
+              labelCol={{ span: 0 }}
+              wrapperCol={{ span: 24 }}
+              component={() => oldRender(renderProps)}
               name={getFormName(name, [index, dataIndex])}
+              rules={item.rules}
             />
           )
         }
@@ -45,11 +60,13 @@ const _FormTable = (props: _FormTableType) => {
 
   const config = {
     render() {
-      return <Table columns={tableColumns} dataSource={data} />
+      return (
+        <Table columns={tableColumns} dataSource={data} pagination={false} />
+      )
     }
   }
 
-  return config.render()
+  // return config.render()
 
   if (isForm) {
     return <RForm {...{ columns: [{ ...config }], value, ...attrs }} />

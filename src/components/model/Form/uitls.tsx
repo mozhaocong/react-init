@@ -1,4 +1,4 @@
-import { debounce, isArray, isTrue } from 'html-mzc-tool'
+import { debounce, deepClone, isArray, isTrue } from 'html-mzc-tool'
 import { Form, Select } from 'antd'
 import React, { useMemo, useRef, useState } from 'react'
 import {
@@ -57,7 +57,7 @@ export function getFormValueFromName(
   if (isArray(item)) {
     return getArrayToObjectTargetValue(value, item)
   } else {
-    return value[item as string]
+    return deepClone(value[item as string])
   }
 }
 

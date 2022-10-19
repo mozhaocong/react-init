@@ -3,11 +3,7 @@ import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { GetRowKey } from 'rc-table/lib/interface'
 import React from 'react'
 import { FormItemProps } from 'antd/lib/form/FormItem'
-import {
-  ColumnGroupType,
-  ColumnsType,
-  ColumnType
-} from 'antd/lib/table/interface'
+import { ColumnType } from 'antd/lib/table/interface'
 
 export interface _FormType extends FormProps {
   fId?: string //form 的 Id
@@ -32,12 +28,14 @@ export interface _FormListType extends _FormType {
 export interface _FormTableType extends _FormType {
   rowKey?: string | GetRowKey<unknown>
   isForm?: boolean // 是否返回带用form 的组件
-  columns?: ColumnTypeForm[]
+  columns?: Array<ColumnTypeForm<formTablePublicProps>>
 }
 
-export interface ColumnTypeForm extends ColumnType<unknown> {
-  dataIndex?: any
-  render?: (item: ObjectMap, ...attrs: any) => React.ReactElement
+export interface ColumnTypeForm<T>
+  extends ColumnType<unknown>,
+    Pick<FormItemProps, 'rules'> {
+  dataIndex: any
+  render: (item: T) => React.ReactElement
 }
 
 interface formPublicProps {
@@ -54,6 +52,13 @@ interface formListPublicProps extends formPublicProps {
   field: ObjectMap // 组件内容生成的当前数据
 }
 
+interface formTablePublicProps extends formPublicProps {
+  text: string | ObjectMap
+  record: ObjectMap
+  index: number
+  item: ObjectMap
+}
+
 export interface columnsItem<T = ObjectMap> extends FormItemProps {
   publicProps?: T
   display?: (item: T) => boolean
@@ -64,15 +69,19 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
   style?: ObjectMap
 }
 
-class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
+export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
   data: Array<T>
   setColumns(item: Array<T>) {
     this.data = item
   }
 }
 
-class baseFormListColumnsItem extends baseFormColumnsItem<
+export class baseFormListColumnsItem extends baseFormColumnsItem<
   columnsItem<formListPublicProps>
+> {}
+
+export class baseFormTableColumnsItem extends baseFormColumnsItem<
+  ColumnTypeForm<formTablePublicProps>
 > {}
 
 class testData extends baseFormColumnsItem {
@@ -81,3 +90,15 @@ class testData extends baseFormColumnsItem {
     this.setColumns([{ name: 'a', label: '12456' }])
   }
 }
+
+// class testDataTable extends baseFormTableColumnsItem {
+//   constructor() {
+//     super()
+//     this.setColumns([
+//       {
+//         dataIndex: 'name',
+//         title: 'name'
+//       }
+//     ])
+//   }
+// }

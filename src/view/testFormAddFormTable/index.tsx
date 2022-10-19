@@ -15,8 +15,8 @@ const View = () => {
       title: 'name',
       dataIndex: 'name',
       width: '25%',
-      render(item, itemB, index, value) {
-        console.log(item, itemB, index, value)
+      render(item) {
+        console.log(item)
         return <Input />
       }
     }

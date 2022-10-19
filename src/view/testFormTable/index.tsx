@@ -12,11 +12,12 @@ const View = () => {
 
   const mergedColumns = [
     {
+      rules: [{ required: true }],
       title: 'name',
       dataIndex: 'name',
       width: '25%',
-      render(item, itemB, index, value) {
-        console.log(item, itemB, index, value)
+      render(item) {
+        // console.log(item)
         return <Input />
       }
     }
@@ -52,22 +53,23 @@ const View = () => {
       <div>testFormTable</div>
       <div>
         <FormTable
+          fId={'formTable'}
           value={value}
           name={'test'}
           columns={mergedColumns}
           onChange={setValue}
           setValue={setValue}
-        />
-        <HtForm
-          columns={rowList}
-          value={value}
-          onChange={setValue}
-          setValue={setValue}
-        />
-        <Button
-          onClick={() => {
-            console.log(value)
+          onFinish={(value) => {
+            console.log('onFinish', value)
           }}
+        />
+
+        <Button
+          htmlType={'submit'}
+          form={'formTable'}
+          // onClick={() => {
+          //   console.log(value)
+          // }}
         >
           查看
         </Button>
