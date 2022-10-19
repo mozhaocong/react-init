@@ -44,7 +44,7 @@ const _FormTable = (props: _FormTableType) => {
           }
           return (
             <FormItem
-              col={24}
+              col={{ span: 24 }}
               labelCol={{ span: 0 }}
               wrapperCol={{ span: 24 }}
               component={() => oldRender(renderProps)}

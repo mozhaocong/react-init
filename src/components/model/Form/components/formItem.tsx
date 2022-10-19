@@ -14,7 +14,7 @@ const View = (props: columnsItem): React.ReactElement => {
     display,
     render,
     component,
-    col,
+    col = { span: 8 },
     customRender,
     ...attrs
   } = props
@@ -32,7 +32,7 @@ const View = (props: columnsItem): React.ReactElement => {
   }
 
   return (
-    <Col span={col} key={JSON.stringify(name)}>
+    <Col {...{ col }} key={JSON.stringify(name)}>
       {isTrue(customRender) ? (
         customRender(publicProps)
       ) : (

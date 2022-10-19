@@ -1,15 +1,16 @@
+import React from 'react'
 import { FormProps } from 'antd/lib/form/Form'
 import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { GetRowKey } from 'rc-table/lib/interface'
-import React from 'react'
 import { FormItemProps } from 'antd/lib/form/FormItem'
 import { ColumnType } from 'antd/lib/table/interface'
+import { ColProps } from 'antd/lib/grid/col'
 
 export interface _FormType extends FormProps {
   fId?: string //form 的 Id
   loading?: boolean
   columns?: Array<columnsItem<formPublicProps>>
-  col?: number // 使用 row col 布局
+  col?: ColProps // 使用 row col 布局
   style?: ObjectMap
   onChange?: (item: ObjectMap) => void
   propsForm?: (formRef: ObjectMap) => void // form 组件初始化后 把 formRef 回传出去
@@ -65,7 +66,7 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
   render?: (item: T, ...attrs: any) => React.ReactElement
   component?: (item: T) => React.ReactElement
   customRender?: (item: T) => React.ReactElement
-  col?: number
+  col?: ColProps
   style?: ObjectMap
 }
 
