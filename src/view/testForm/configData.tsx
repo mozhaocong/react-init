@@ -77,7 +77,9 @@ export const pageSate = {
     label: '', //form 的 label
     placeholder: 'Select province',
     slotType: 'selectOption', // 组件模式
-    component: () => <Input />,
+    component: () => {
+      return <Input />
+    },
     slotList: [
       {
         label: '创建人',

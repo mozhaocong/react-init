@@ -61,6 +61,10 @@ export function getFormValueFromName(
   }
 }
 
+function SelectChange(e, item, stateDate) {
+  console.log(e, item, stateDate)
+}
+
 export function setSlotComponents(item, stateData) {
   const { value } = stateData
   setValueDebounce(item, stateData)
@@ -72,7 +76,10 @@ export function setSlotComponents(item, stateData) {
         noStyle
         rules={[{ required: true, message: 'Province is required' }]}
       >
-        <Select placeholder={item.placeholder}>
+        <Select
+          placeholder={item.placeholder}
+          onChange={(e) => SelectChange(e, item, stateData)}
+        >
           {item.slotList.map((res) => {
             return (
               <Option value={res.key} key={res.key}>
@@ -102,7 +109,9 @@ export function setSlotComponents(item, stateData) {
                 key={res.key}
                 noStyle
               >
-                {res.component ? res.component() : item.component()}
+                {res.component
+                  ? res.component(stateData)
+                  : item.component(stateData)}
               </Form.Item>
             )
           })}
@@ -110,11 +119,11 @@ export function setSlotComponents(item, stateData) {
   )
 }
 
-export function setDataData(item, pageSate, valueOption) {
+export function setDataData(item, pageSate) {
   return item.map((res) => {
     if (res.slotName && pageSate[res.slotName]) {
-      res.render = () => {
-        return setSlotComponents(pageSate[res.slotName], valueOption)
+      res.render = (item) => {
+        return setSlotComponents(pageSate[res.slotName], item)
       }
     }
     return res
@@ -134,9 +143,9 @@ export function useFormData(item = {}, config: any = {}) {
   const rowList = useMemo(() => {
     if (isTrue(rows)) {
       const { data = [] } = rows
-      return setDataData(data, rowSlots, { value, setValue })
+      return setDataData(data, rowSlots)
     }
-  }, [value, rows])
+  }, [rows])
 
   return { value, setValue: handle, valueData: valueData.current, rowList }
 }
