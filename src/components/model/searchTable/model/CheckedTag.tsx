@@ -2,9 +2,9 @@ import React, { Fragment, useMemo } from 'react'
 import { deepClone, isString, isTrue } from 'html-mzc-tool'
 import { Tag } from 'antd'
 
-type listSearchType = {
+export type listSearchType = {
   value: ObjectMap
-  setValue: (v: any) => void
+  // setValue: (v: any) => void
   columns: columnType[]
   setNameItem?: ObjectMap<string, (item: tagItemType) => React.ReactElement>
   // deleteNameItem?: ObjectMap<
@@ -14,18 +14,22 @@ type listSearchType = {
 }
 
 type columnType = { label: string; name: string }
-type tagItemType = Omit<listSearchType, 'columns'> & columnType
+type tagItemType = Omit<listSearchType, 'columns'> &
+  columnType & { onSearch: (item) => void }
 
-const CheckedTag = (props: { listSearch: listSearchType[] }) => {
-  const { listSearch } = props
+const CheckedTag = (props: {
+  listSearch: listSearchType[]
+  onSearch: (item: ObjectMap) => void
+}) => {
+  const { listSearch, onSearch } = props
   const listTag = useMemo(() => {
     const data = []
     listSearch.forEach((item) => {
-      const { value, columns, setValue, ...attrs } = item
+      const { value, columns, ...attrs } = item
       if (!isTrue(value)) return
       columns.forEach((res) => {
         if (isTrue(value[res.name])) {
-          data.push(deepClone({ ...res, ...attrs, value, setValue }))
+          data.push(deepClone({ ...res, ...attrs, value }))
         }
       })
     })
@@ -35,10 +39,10 @@ const CheckedTag = (props: { listSearch: listSearchType[] }) => {
 
   function closeTag(e: any, item: tagItemType | { [index: string]: any }) {
     e.preventDefault()
-    const { value, setValue, name } = item
+    const { value, name } = item
     const data = deepClone(value)
     delete data[name]
-    setValue(data)
+    onSearch(data)
   }
   function getTag(item: tagItemType) {
     const { label, name, value, setNameItem } = item

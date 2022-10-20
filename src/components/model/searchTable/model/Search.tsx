@@ -3,7 +3,10 @@ import { HtForm } from '@/components'
 import { Button } from 'antd'
 import React from 'react'
 
-const Search = (props: _FormType & { onReset: () => void }) => {
+interface searchType extends _FormType {
+  onReset: () => void
+}
+const Search = (props: searchType) => {
   const { value, onReset, columns, ...attrs } = props
   function onResetClick() {
     onReset()

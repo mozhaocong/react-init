@@ -1,17 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { HtForm } from '@/components'
 import { baseFormColumnsItem } from '@/components/model/Form/indexType'
-import { Table, Input } from 'antd'
-import { useRequest } from '@/view/search/hooks'
+import React from 'react'
 import { axiosGet } from 'html-mzc-tool'
-import CheckedTag from './model/CheckedTag'
-import Search from './model/Search'
+import { Input } from 'antd'
+import SearchTable from '@/components/model/searchTable'
 
 function orders(data = {}) {
   return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
 }
-
-const { useFormData } = HtForm
 
 class searchColumn extends baseFormColumnsItem {
   constructor() {
@@ -24,60 +19,6 @@ class searchColumn extends baseFormColumnsItem {
       { label: '发货方式', name: 'delivery_type', component: () => <Input /> }
     ])
   }
-}
-
-const columns = new searchColumn().data
-
-const View = () => {
-  const { value, valueData, setValue } = useFormData({})
-  const [dataSource, setDataSource] = useState([])
-  const [searchData, setSearchData] = useState({})
-
-  function onFinish(value) {
-    setSearchData(value)
-    search(value)
-  }
-  function onReset() {
-    setSearchData(value)
-    setValue({})
-    search({})
-  }
-  const { search, loading, pageSize, refresh, Pagination } = useRequest(
-    orders,
-    {
-      defaultParams: { is_simple: 0 },
-      onSuccess(item) {
-        setDataSource(item?.data?.data)
-      }
-    }
-  )
-  useEffect(() => {
-    search({})
-  }, [])
-
-  const listSearch = useMemo(() => {
-    return [{ setValue, value, columns: columns as any }]
-  }, [searchData])
-
-  return (
-    <div>
-      <div>View</div>
-      <Search
-        loading={loading}
-        fId={'searchTest'}
-        value={value}
-        valueData={valueData}
-        setValue={setValue}
-        columns={columns}
-        onChange={setValue}
-        onFinish={onFinish}
-        onReset={onReset}
-      />
-      <CheckedTag listSearch={listSearch} />
-      <SearchTable dataSource={dataSource} rowKey={'no'} loading={loading} />
-      <Pagination />
-    </div>
-  )
 }
 
 const tableColumns = [
@@ -103,14 +44,19 @@ const tableColumns = [
   }
 ]
 
-const SearchTable = (props) => {
-  const { dataSource = [], ...attrs } = props
+const View = () => {
   return (
-    <Table
-      pagination={false}
-      columns={tableColumns}
-      dataSource={dataSource}
-      {...attrs}
+    <SearchTable
+      search={{ fId: 'searchTest', columns: new searchColumn().data }}
+      table={{ columns: tableColumns, rowKey: 'no' }}
+      useRequest={{
+        defaultParams: { is_simple: 0 },
+        apiRequest: orders,
+        onSuccess(item, res) {
+          console.log(item, res)
+          return item?.data?.data
+        }
+      }}
     />
   )
 }

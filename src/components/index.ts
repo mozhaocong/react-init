@@ -1,3 +1,2 @@
-import HtForm from './model/Form'
-import MinMaxInput from './model/minMaxInput'
-export { HtForm, MinMaxInput }
+export { default as HtForm } from './model/Form'
+export { default as MinMaxInput } from './model/minMaxInput'
