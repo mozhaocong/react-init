@@ -28,7 +28,7 @@ const View = () => {
         return (
           <FormTable
             value={value}
-            name={'test'}
+            formName={'test'}
             columns={mergedColumns}
             isForm={false}
           />

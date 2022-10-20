@@ -6,22 +6,12 @@ import { getFormName } from '../uitls'
 import { _FormListType } from '@/components/model/Form/indexType'
 
 const _FormList = (props: _FormListType) => {
-  const {
-    name = '',
-    columns = [],
-    publicProps = {},
-    isForm = true,
-    value,
-    valueData,
-    setValue,
-    ...attrs
-  } = props
-
+  const { formName = '', columns = [], isForm = true, ...attrs } = props
   const config = {
-    name,
-    render: () => {
+    render: (item) => {
+      const { publicProps = {}, value, valueData, setValue } = item
       return (
-        <Form.List name={name}>
+        <Form.List name={formName}>
           {(fields, { add, remove }) => (
             <>
               {fields.map((field, index) => (
@@ -60,9 +50,9 @@ const _FormList = (props: _FormListType) => {
   }
 
   if (isForm) {
-    return <RForm {...{ columns: [{ ...config }], value, ...attrs }} />
+    return <RForm {...{ columns: [{ ...config }], ...attrs }} />
   } else {
-    return config.render()
+    return config.render(attrs)
   }
 }
 

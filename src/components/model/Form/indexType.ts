@@ -23,13 +23,15 @@ export interface _FormType extends FormProps {
 
 export interface _FormListType extends _FormType {
   isForm?: boolean // 是否返回带用form 的组件
-  columns?: Array<columnsItem<formListPublicProps>>
+  columns: Array<columnsItem<formListPublicProps>>
+  formName: string | number | Array<string | number>
 }
 
 export interface _FormTableType extends _FormType {
   rowKey?: string | GetRowKey<unknown>
   isForm?: boolean // 是否返回带用form 的组件
-  columns?: Array<ColumnTypeForm<formTablePublicProps>>
+  columns: Array<ColumnTypeForm<formTablePublicProps>>
+  formName: string | number | Array<string | number>
 }
 
 export interface ColumnTypeForm<T>

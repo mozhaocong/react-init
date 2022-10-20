@@ -7,11 +7,11 @@ import RForm from '../index'
 import { _FormTableType } from '../indexType'
 
 const _FormTable = (props: _FormTableType) => {
-  const { value, columns, name, rowKey, isForm = true, ...attrs } = props
+  const { value, columns, formName, rowKey, isForm = true, ...attrs } = props
   const [data, setData] = useState([])
   const [formValue, setFormValue] = useState([])
   useEffect(() => {
-    const formData = getFormValueFromName(value, name)
+    const formData = getFormValueFromName(value, formName)
     if (isArray(formData) && formValue.length !== formData.length) {
       setData(
         formData.map((item: any, index) => {
@@ -21,10 +21,10 @@ const _FormTable = (props: _FormTableType) => {
       )
     }
     setFormValue(formData)
-  }, [value, name])
+  }, [value, formName])
 
   const tableColumns = useMemo(() => {
-    const formValueData = getFormValueFromName(value, name)
+    const formValueData = getFormValueFromName(value, formName)
     const { valueData, setValue, publicProps } = attrs
     return columns.map((item) => {
       const { dataIndex } = item
@@ -48,7 +48,7 @@ const _FormTable = (props: _FormTableType) => {
               labelCol={{ span: 0 }}
               wrapperCol={{ span: 24 }}
               component={() => oldRender(renderProps)}
-              name={getFormName(name, [index, dataIndex])}
+              name={getFormName(formName, [index, dataIndex])}
               rules={item.rules}
             />
           )
@@ -65,8 +65,6 @@ const _FormTable = (props: _FormTableType) => {
       )
     }
   }
-
-  // return config.render()
 
   if (isForm) {
     return <RForm {...{ columns: [{ ...config }], value, ...attrs }} />

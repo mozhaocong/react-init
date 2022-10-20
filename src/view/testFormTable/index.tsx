@@ -23,31 +23,6 @@ const View = () => {
     }
   ]
 
-  const rowList = [
-    {
-      render() {
-        return (
-          <FormTable
-            value={value}
-            name={'test'}
-            columns={mergedColumns}
-            isForm={false}
-          />
-        )
-      }
-    },
-    {
-      name: ['test', 0, 'name'],
-      title: 'test1',
-      component: () => <Input />
-    },
-    {
-      name: ['test', 1, 'name'],
-      title: 'test1',
-      component: () => <Input />
-    }
-  ]
-
   return (
     <div>
       <div>testFormTable</div>
@@ -55,7 +30,7 @@ const View = () => {
         <FormTable
           fId={'formTable'}
           value={value}
-          name={'test'}
+          formName={'test'}
           columns={mergedColumns}
           onChange={setValue}
           setValue={setValue}

@@ -21,7 +21,7 @@ class formData {
               columns={[
                 {
                   label: 'Price',
-                  name: 'Price',
+                  name: ['test', 'a'],
                   component: (item) => {
                     console.log(item)
                     return <Input />
@@ -41,7 +41,7 @@ class formData {
                   }
                 }
               ]}
-              name={'test'}
+              formName={'test'}
               isForm={false}
             />
           )

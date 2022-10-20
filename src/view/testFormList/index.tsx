@@ -55,7 +55,7 @@ const App: React.FC = () => {
     <>
       <FormList
         columns={data}
-        name={'test'}
+        formName={'test'}
         value={value}
         valueData={valueData}
         setValue={setValue}
