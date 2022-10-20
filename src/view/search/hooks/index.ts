@@ -1,23 +1,34 @@
-import Pagination from '../model/pagination.js'
-// @ts-ignore
-import { useState } from 'react'
+import Pagination from '../model/Pagination'
+import { ReactElement, useState } from 'react'
 import { isObject, isTrue, objectFilterEmpty } from 'html-mzc-tool'
+
 const optionsDefData = {
-  paginationReq: ['data', 'pagination'],
+  apiSuccessfulVerification: (item: ObjectMap): boolean => {
+    return item?.code === 200
+  }, // 接口成功校验
+  paginationReq: ['data'], // 分页参数 字段
   paginationConfig: {
-    current: 'current',
-    pageSize: 'pageSize',
+    current: 'current_page',
+    pageSize: 'per_page',
     total: 'total'
   },
   setPaginationParam: {
-    current: 'current',
-    pageSize: 'pageSize'
+    current: 'page',
+    pageSize: 'size'
   }
 }
 
-type
+type optionsType = {
+  setSearchData?: (item: ObjectMap) => ObjectMap
+  customizeRun?: (item: ObjectMap) => Promise<any>
+  defaultParams?: ObjectMap
+  onSuccess?: (item: ObjectMap) => void
+}
 
-export function useRequest(request: any, options: any = {}) {
+export function useRequest(
+  request: (item: ObjectMap) => Promise<any>,
+  options: optionsType = {}
+) {
   const [loading, setLoading] = useState(false)
   const [current, setCurrent] = useState(1)
   const [pageSize, setPageSize] = useState(1)
@@ -31,16 +42,16 @@ export function useRequest(request: any, options: any = {}) {
     }
   }
 
-  async function search(data = {}, config = {}) {
+  async function search(
+    data: ObjectMap = {},
+    config: { resetPagination: boolean } = { resetPagination: true }
+  ) {
     let is = true
     if (isObject(config)) {
       const { resetPagination = true } = config
       is = resetPagination
     }
-    let params = { ...data, ...resetPagination(is) }
-    if (options.setSearchData) {
-      params = options.setSearchData(params)
-    }
+    const params = { ...data, ...resetPagination(is) }
     await run(params)
   }
 
@@ -51,21 +62,26 @@ export function useRequest(request: any, options: any = {}) {
 
   async function run(data = {}) {
     setLoading(true)
-    const params = objectFilterEmpty(data)
+    let params = objectFilterEmpty({
+      ...(options.defaultParams || {}),
+      ...data
+    })
     setParam(params)
     let item: any = {}
+
+    if (options.setSearchData) {
+      params = options.setSearchData(params)
+    }
+
     if (options.customizeRun) {
-      item = await options.customizeRun({
-        ...(options.defaultParams || {}),
-        ...params
-      })
+      item = await options.customizeRun(params)
     } else {
-      item = await request({ ...(options.defaultParams || {}), ...params })
+      item = await request(params)
     }
     if (!isTrue(item)) {
       throw '请求接口错误'
     }
-    if (item.state == 200) {
+    if (optionsDefData.apiSuccessfulVerification(item)) {
       const optionsData = { ...optionsDefData, ...options }
       let paginationReqData: any = {}
       if (isTrue(optionsData.paginationReq)) {
@@ -89,10 +105,12 @@ export function useRequest(request: any, options: any = {}) {
         )
         setTotal(paginationReqData[optionsData?.paginationConfig?.total] ?? '')
       }
+
+      if (options.onSuccess) {
+        options.onSuccess(item)
+      }
     }
-    if (options.onSuccess) {
-      options.onSuccess(item)
-    }
+
     setLoading(false)
   }
 
@@ -105,12 +123,11 @@ export function useRequest(request: any, options: any = {}) {
     refresh,
     resetPagination,
     search,
-    Pagination: (props: any) =>
+    Pagination: (props: any): ReactElement =>
       Pagination({
         current,
         pageSize,
         total,
-        // @ts-ignore
         loading,
         onChange: (item: any) => {
           // 点击回到顶
@@ -143,6 +160,6 @@ export function useRequest(request: any, options: any = {}) {
           }
           run(itemParam)
         }
-      })
+      }) as ReactElement
   }
 }

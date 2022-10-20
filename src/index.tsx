@@ -2,8 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import 'antd/dist/antd.css'
-// import './global'
-// import { axiosInit } from '@/http'
+import { axiosInit, isTrue } from 'html-mzc-tool'
+
+axiosInit({
+  setConfigHeaders() {
+    const data = localStorage.getItem('Authorization')
+    return isTrue(data) ? { Authorization: data } : {}
+  }
+})
 
 function appInit() {
   // axiosInit()

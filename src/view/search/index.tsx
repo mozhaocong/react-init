@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { HtForm } from '@/components'
-import {
-  _FormType,
-  baseFormColumnsItem
-} from '@/components/model/Form/indexType'
-import { Input } from 'antd/es'
-import { Button, Table } from 'antd'
+import { baseFormColumnsItem } from '@/components/model/Form/indexType'
+import { Table, Input } from 'antd'
 import { useRequest } from '@/view/search/hooks'
+import { axiosGet } from 'html-mzc-tool'
+import CheckedTag from './model/CheckedTag'
+import Search from './model/Search'
+
+function orders(data = {}) {
+  return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
+}
 
 const { useFormData } = HtForm
 
@@ -23,57 +26,76 @@ class searchColumn extends baseFormColumnsItem {
   }
 }
 
+const columns = new searchColumn().data
+
 const View = () => {
   const { value, valueData, setValue } = useFormData({})
+  const [dataSource, setDataSource] = useState([])
+  const [searchData, setSearchData] = useState({})
+
   function onFinish(value) {
-    console.log(value)
+    setSearchData(value)
+    search(value)
   }
-  const { search, loading, pageSize, refresh } = useRequest({})
+  function onReset() {
+    setSearchData(value)
+    setValue({})
+    search({})
+  }
+  const { search, loading, pageSize, refresh, Pagination } = useRequest(
+    orders,
+    {
+      defaultParams: { is_simple: 0 },
+      onSuccess(item) {
+        setDataSource(item?.data?.data)
+      }
+    }
+  )
+  useEffect(() => {
+    search({})
+  }, [])
+
+  const listSearch = useMemo(() => {
+    return [{ setValue, value, columns: columns as any }]
+  }, [searchData])
+
   return (
     <div>
       <div>View</div>
       <Search
+        loading={loading}
+        fId={'searchTest'}
         value={value}
         valueData={valueData}
         setValue={setValue}
-        columns={new searchColumn().data}
+        columns={columns}
         onChange={setValue}
         onFinish={onFinish}
+        onReset={onReset}
       />
-      <SearchTable />
+      <CheckedTag listSearch={listSearch} />
+      <SearchTable dataSource={dataSource} rowKey={'no'} loading={loading} />
+      <Pagination />
     </div>
   )
 }
 
-const Search = (props: _FormType) => {
-  const { value, ...attrs } = props
-  return (
-    <div>
-      <HtForm {...{ value, ...attrs }} />
-      <div>
-        <Button>搜索</Button>
-        <Button>重置</Button>
-      </div>
-    </div>
-  )
-}
-
-const columns = [
+const tableColumns = [
   {
     title: '订单信息',
     dataIndex: 'no'
   },
   {
     title: '产品信息',
-    dataIndex: 'order_items'
+    dataIndex: 'category_name'
   },
   {
     title: '费用信息',
     dataIndex: 'total_price'
   },
   {
-    title: '物流信息',
-    dataIndex: 'out_repo_orders'
+    title: '更新时间',
+    dataIndex: 'updated_at'
   },
   {
     title: '日期',
@@ -82,8 +104,15 @@ const columns = [
 ]
 
 const SearchTable = (props) => {
-  const { dataSource = [] } = props
-  return <Table columns={columns} dataSource={dataSource} />
+  const { dataSource = [], ...attrs } = props
+  return (
+    <Table
+      pagination={false}
+      columns={tableColumns}
+      dataSource={dataSource}
+      {...attrs}
+    />
+  )
 }
 
 export default View
