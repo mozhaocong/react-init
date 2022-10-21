@@ -2,7 +2,7 @@ import { baseFormColumnsItem } from '@/components/model/Form/indexType'
 import React from 'react'
 import { axiosGet } from 'html-mzc-tool'
 import { Input } from 'antd'
-import SearchTable from '@/components/model/searchTable'
+import { SearchTable } from '@/components'
 
 function orders(data = {}) {
   return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
