@@ -99,8 +99,7 @@ const _Form = (props: _FormType) => {
                       value,
                       valueData,
                       setValue,
-                      publicProps,
-                      formRef: form
+                      publicProps
                     },
                     ...columnAttrs
                   }}

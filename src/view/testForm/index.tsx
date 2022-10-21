@@ -15,6 +15,7 @@ const App = () => {
       name: 'ASGASGA'
     },
     { rows: formData, rowSlots: pageSate }
+    // { rows: formData }
   )
 
   return (

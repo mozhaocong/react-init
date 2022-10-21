@@ -63,6 +63,23 @@ export function getFormValueFromName(
 
 function SelectChange(e, item, stateDate) {
   console.log(e, item, stateDate)
+  let slotName = ''
+  item.slotList.forEach((res) => {
+    if (res.key === e) {
+      slotName = res.name ?? item.optionNane
+    }
+  })
+  console.log('slotName', slotName)
+
+  const { valueData, setValue } = stateDate
+  let returnData = ''
+  if (isArray(slotName)) {
+    returnData = arrayToObject(valueData.value, slotName, (item) => {
+      return undefined
+    })
+  }
+  console.log('returnData', returnData)
+  setValue(returnData)
 }
 
 export function setSlotComponents(item, stateData) {

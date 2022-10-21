@@ -1,6 +1,7 @@
 import { Form, Input, Select } from 'antd'
 import MinMaxInput from '@/components/model/minMaxInput'
 import React from 'react'
+import { deepClone } from 'html-mzc-tool'
 const { Option } = Select
 
 export class formRows {
@@ -10,7 +11,9 @@ export class formRows {
       {
         label: 'Username',
         name: 'name',
-        component: (configure) => <Input {...configure.publicProps} />
+        component: (configure) => {
+          return <Input {...configure.publicProps} />
+        }
       },
       {
         label: 'Password',

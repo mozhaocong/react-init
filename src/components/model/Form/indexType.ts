@@ -46,7 +46,6 @@ interface formPublicProps {
   valueData: ObjectMap
   setValue: (item: ObjectMap) => void
   publicProps: ObjectMap
-  formRef: FormInstance
 }
 interface formListPublicProps extends formPublicProps {
   res: ObjectMap // 当前条数据的值

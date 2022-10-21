@@ -101,12 +101,8 @@ export function arrayToObject(
     return deepClone(dataSource)
   }
   const returnData = setData(deepClone(itemData[key]))
-  if (isTrue(returnData)) {
-    itemData[key] = returnData
-    return data
-  } else {
-    return deepClone(dataSource)
-  }
+  itemData[key] = returnData
+  return data
 }
 
 export function getArrayToObjectTargetValue(
