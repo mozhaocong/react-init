@@ -136,7 +136,7 @@ export function setSlotComponents(item, stateData) {
   )
 }
 
-export function setDataData(item, pageSate) {
+export function setFormColumnsSlotName(item, pageSate) {
   return item.map((res) => {
     if (res.slotName && pageSate[res.slotName]) {
       res.render = (item) => {
@@ -160,7 +160,7 @@ export function useFormData(item = {}, config: any = {}) {
   const rowList = useMemo(() => {
     if (isTrue(rows)) {
       const { data = [] } = rows
-      return setDataData(data, rowSlots)
+      return setFormColumnsSlotName(data, rowSlots)
     }
   }, [rows])
 

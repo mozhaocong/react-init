@@ -70,6 +70,7 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
   customRender?: (item: T) => React.ReactElement
   col?: ColProps
   style?: ObjectMap
+  slotName?: string
 }
 
 export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {

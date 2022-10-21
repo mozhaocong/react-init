@@ -3,6 +3,7 @@ import React from 'react'
 import { axiosGet } from 'html-mzc-tool'
 import { Input } from 'antd'
 import { SearchTable } from '@/components'
+import { setFormColumnsSlotName } from '@/components/model/Form/uitls'
 
 function orders(data = {}) {
   return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
@@ -16,8 +17,30 @@ class searchColumn extends baseFormColumnsItem {
       { label: '客户检索', name: 'customer_name', component: () => <Input /> },
       { label: '运单号', name: 'shipping_no', component: () => <Input /> },
       { label: '订单类型', name: 'type', component: () => <Input /> },
-      { label: '发货方式', name: 'delivery_type', component: () => <Input /> }
+      { label: '发货方式', name: 'delivery_type', component: () => <Input /> },
+      { slotName: 'spPlatform' }
     ])
+  }
+}
+
+export const pageSate = {
+  spPlatform: {
+    // 组件列表slot name
+    selectNane: ['spPlatform', 'select'], // form表单的Name
+    optionNane: ['spPlatform', 'option'],
+    initialValue: {
+      select: 'sellerSku',
+      option: 1
+    },
+    placeholder: 'Select province',
+    slotType: 'selectOption', // 组件模式
+    component: () => {
+      return <Input />
+    },
+    slotList: [
+      { label: '创建人', key: 'sku' },
+      { label: '销售负责人', key: 'sellerSku' }
+    ]
   }
 }
 
@@ -47,7 +70,10 @@ const tableColumns = [
 const View = () => {
   return (
     <SearchTable
-      search={{ fId: 'searchTest', columns: new searchColumn().data }}
+      search={{
+        fId: 'searchTest',
+        columns: setFormColumnsSlotName(new searchColumn().data, pageSate)
+      }}
       table={{ columns: tableColumns, rowKey: 'no' }}
       useRequest={{
         defaultParams: { is_simple: 0 },
