@@ -1,4 +1,4 @@
 export { default as HtForm } from './model/Form'
-export { default as MinMaxInput } from './model/minMaxInput'
-export { createModal } from './model/Modal'
-export { default as SearchTable } from './model/searchTable'
+export { default as MinMaxInput } from './model/MinMaxInput'
+export { default as SearchTable } from './model/SearchTable'
+export { default as Modal } from './model/Modal'

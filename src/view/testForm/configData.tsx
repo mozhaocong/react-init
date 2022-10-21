@@ -1,5 +1,5 @@
 import { Form, Input, Select } from 'antd'
-import MinMaxInput from '@/components/model/minMaxInput'
+import MinMaxInput from '@/components/model/MinMaxInput'
 import React from 'react'
 import { deepClone } from 'html-mzc-tool'
 const { Option } = Select
