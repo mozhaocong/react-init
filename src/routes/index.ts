@@ -3,6 +3,7 @@ import TestForm from '@/view/testForm'
 import TestFormList from '@/view/testFormList'
 import TestFormAddFormList from '@/view/testFormAddFormList'
 import TestFormTable from '@/view/testFormTable'
+import Modal from '@/view/modal'
 import Search from '@/view/search'
 const routes: any = [
   {
@@ -12,6 +13,10 @@ const routes: any = [
       {
         path: 'search',
         component: Search
+      },
+      {
+        path: 'modal',
+        component: Modal
       },
       {
         path: 'testForm',
