@@ -27,7 +27,7 @@ export interface _FormListType extends _FormType {
   formName: string | number | Array<string | number>
 }
 
-export interface _FormTableType extends _FormType {
+export interface _FormTableType extends Omit<_FormType, 'columns'> {
   rowKey?: string | GetRowKey<unknown>
   isForm?: boolean // 是否返回带用form 的组件
   columns: Array<ColumnTypeForm<formTablePublicProps>>
@@ -46,6 +46,7 @@ interface formPublicProps {
   valueData: ObjectMap
   setValue: (item: ObjectMap) => void
   publicProps: ObjectMap
+  formRef: FormInstance
 }
 interface formListPublicProps extends formPublicProps {
   res: ObjectMap // 当前条数据的值
@@ -55,7 +56,7 @@ interface formListPublicProps extends formPublicProps {
   field: ObjectMap // 组件内容生成的当前数据
 }
 
-interface formTablePublicProps extends formPublicProps {
+interface formTablePublicProps extends Omit<formPublicProps, 'formRef'> {
   text: string | ObjectMap
   record: ObjectMap
   index: number

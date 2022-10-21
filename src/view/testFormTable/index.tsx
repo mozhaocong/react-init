@@ -17,7 +17,7 @@ const View = () => {
       dataIndex: 'name',
       width: '25%',
       render(item) {
-        // console.log(item)
+        console.log(item)
         return <Input />
       }
     }

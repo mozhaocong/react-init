@@ -4,15 +4,15 @@ import TestFormList from '@/view/testFormList'
 import TestFormAddFormList from '@/view/testFormAddFormList'
 import TestFormTable from '@/view/testFormTable'
 import Modal from '@/view/modal'
-import Search from '@/view/search'
+import searchTable from '@/view/searchTable'
 const routes: any = [
   {
     path: '/',
     component: layout,
     children: [
       {
-        path: 'search',
-        component: Search
+        path: 'searchTable',
+        component: searchTable
       },
       {
         path: 'modal',
