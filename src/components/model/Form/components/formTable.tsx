@@ -25,7 +25,7 @@ const _FormTable = (props: _FormTableType) => {
 
   const tableColumns = useMemo(() => {
     const formValueData = getFormValueFromName(value, formName)
-    const { valueData, setValue, publicProps } = attrs
+    const { valueData, setValue, publicProps, valueOtherData } = attrs
     return columns.map((item) => {
       const { dataIndex } = item
       if (isTrue(item.render)) {
@@ -39,6 +39,7 @@ const _FormTable = (props: _FormTableType) => {
             item,
             value,
             valueData,
+            valueOtherData,
             setValue,
             publicProps
           }

@@ -22,6 +22,7 @@ const _Form = (props: _FormType) => {
     value,
     valueData,
     setValue,
+    valueOtherData = {},
     publicProps = {},
     onFinish: propsOnFinish,
     ...attrs
@@ -96,6 +97,7 @@ const _Form = (props: _FormType) => {
                     col: itemCol ?? col,
                     name,
                     publicProps: {
+                      valueOtherData,
                       value,
                       valueData,
                       setValue,

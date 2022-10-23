@@ -70,7 +70,7 @@ export function objectRecursiveMerge(
 export function arrayToObject(
   dataSource: ObjectMap = {},
   arrayData: Array<string | number> = [],
-  setData?: (returnData: any) => any
+  setData?: (returnData: any) => string | number | null | undefined
 ) {
   const data = deepClone(dataSource)
   let replaceData = data

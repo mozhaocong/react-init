@@ -1,10 +1,11 @@
-import { debounce, deepClone, isArray, isTrue } from 'html-mzc-tool'
+import { debounce, deepClone, isArray, isString, isTrue } from 'html-mzc-tool'
 import { Form, Select } from 'antd'
 import React, { useMemo, useRef, useState } from 'react'
 import {
   arrayToObject,
   getArrayToObjectTargetValue
 } from '@/uitls/model/business'
+import { data } from 'autoprefixer'
 
 const { Option } = Select
 
@@ -44,6 +45,7 @@ function setValueMethod(item, stateData) {
       return res
     })
     if (isInit) {
+      console.log('arrayData', arrayData)
       setValue(arrayData)
     }
   }
@@ -61,24 +63,51 @@ export function getFormValueFromName(
   }
 }
 
-function SelectChange(e, item, stateDate) {
-  console.log(e, item, stateDate)
+export function setNameToValue(
+  value: ObjectMap,
+  setData: string | Array<string | number>,
+  setMethod: (item: any) => string | number | null | undefined
+) {
+  if (isArray(setData)) {
+    return arrayToObject(value, setData, setMethod)
+  } else if (isString(setData)) {
+    const data = deepClone(value)
+    data[setData] = setMethod(deepClone(data[setData]))
+    return data
+  } else {
+    return value
+  }
+}
+
+function SelectChange(e, option, item, stateDate) {
+  console.log(e, option, item, stateDate)
+  const { valueData, setValue, valueOtherData } = stateDate
   let slotName = ''
   item.slotList.forEach((res) => {
     if (res.key === e) {
       slotName = res.name ?? item.optionNane
     }
   })
-  console.log('slotName', slotName)
 
-  const { valueData, setValue } = stateDate
-  let returnData = ''
-  if (isArray(slotName)) {
-    returnData = arrayToObject(valueData.value, slotName, (item) => {
-      return undefined
-    })
+  let selectNameLabel: any
+  if (isArray(item.selectNane)) {
+    selectNameLabel = deepClone(item.selectNane)
+    selectNameLabel[selectNameLabel.length - 1] =
+      selectNameLabel[selectNameLabel.length - 1] + 'Label'
+  } else {
+    selectNameLabel = item.selectNane + 'label'
   }
-  console.log('returnData', returnData)
+  valueOtherData.value = setNameToValue(
+    valueOtherData.value,
+    selectNameLabel,
+    () => {
+      return option.children
+    }
+  )
+
+  const returnData = setNameToValue(valueData.value, slotName, () => {
+    return undefined
+  })
   setValue(returnData)
 }
 
@@ -95,7 +124,7 @@ export function setSlotComponents(item, stateData) {
       >
         <Select
           placeholder={item.placeholder}
-          onChange={(e) => SelectChange(e, item, stateData)}
+          onChange={(e, res) => SelectChange(e, res, item, stateData)}
         >
           {item.slotList.map((res) => {
             return (
@@ -147,12 +176,34 @@ export function setFormColumnsSlotName(item, pageSate) {
   })
 }
 
-export function useFormData(item = {}, config: any = {}) {
-  const { rows = {}, rowSlots = {} } = config
+type useFormDataConfig = {
+  rows?: ObjectMap
+  rowSlots?: ObjectMap
+  valueOtherData?: ObjectMap
+}
+export function useFormData(
+  item = {},
+  config: useFormDataConfig = {}
+): {
+  value: ObjectMap
+  setValue: (item: any) => void
+  valueData: { value: ObjectMap }
+  rowList: any[]
+  valueOtherData: { value: ObjectMap }
+} {
+  const {
+    rows = {},
+    rowSlots = {},
+    valueOtherData: propsOtherData = {}
+  } = config
 
   const valueData = useRef({ value: item })
+  const valueOtherData = useRef({ value: propsOtherData })
   const [value, setValue] = useState(item)
   const handle = (v) => {
+    if (!isTrue(v)) {
+      valueOtherData.current.value = {}
+    }
     valueData.current.value = v
     setValue(v)
   }
@@ -164,5 +215,11 @@ export function useFormData(item = {}, config: any = {}) {
     }
   }, [rows])
 
-  return { value, setValue: handle, valueData: valueData.current, rowList }
+  return {
+    value,
+    setValue: handle,
+    valueData: valueData.current,
+    rowList,
+    valueOtherData: valueOtherData.current
+  }
 }

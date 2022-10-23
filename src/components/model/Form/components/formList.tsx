@@ -9,7 +9,13 @@ const _FormList = (props: _FormListType) => {
   const { formName = '', columns = [], isForm = true, ...attrs } = props
   const config = {
     render: (item) => {
-      const { publicProps = {}, value, valueData, setValue } = item
+      const {
+        publicProps = {},
+        value,
+        valueData,
+        setValue,
+        valueOtherData
+      } = item
       return (
         <Form.List name={formName}>
           {(fields, { add, remove }) => (
@@ -26,6 +32,7 @@ const _FormList = (props: _FormListType) => {
                           key: JSON.stringify(getFormName(field.name, name)),
                           name: getFormName(field.name, name),
                           publicProps: {
+                            valueOtherData,
                             value,
                             valueData,
                             setValue,

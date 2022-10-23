@@ -13,12 +13,17 @@ class searchColumn extends baseFormColumnsItem {
   constructor() {
     super()
     this.setColumns([
-      { label: '编号检索', name: 'no', component: () => <Input /> },
+      {
+        label: '编号检索',
+        initialValue: 1,
+        name: 'no',
+        component: () => <Input />
+      },
       { label: '客户检索', name: 'customer_name', component: () => <Input /> },
       { label: '运单号', name: 'shipping_no', component: () => <Input /> },
       { label: '订单类型', name: 'type', component: () => <Input /> },
       { label: '发货方式', name: 'delivery_type', component: () => <Input /> },
-      { slotName: 'spPlatform' }
+      { slotName: 'spPlatform', name: ['spPlatform'] }
     ])
   }
 }

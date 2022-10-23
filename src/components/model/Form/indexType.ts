@@ -19,6 +19,7 @@ export interface _FormType extends FormProps {
   valueData?: ObjectMap // value的实时值
   setValue?: (item: any) => void // value valueData setValue 三个参数都是从 useFormData 返回的值
   publicProps?: ObjectMap // 组件公共参数
+  valueOtherData?: ObjectMap
 }
 
 export interface _FormListType extends _FormType {

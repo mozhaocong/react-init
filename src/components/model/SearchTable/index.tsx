@@ -7,6 +7,8 @@ import { deepClone, isArray, isTrue } from 'html-mzc-tool'
 import CheckedTag, { listSearchType } from './model/CheckedTag'
 import Search from './model/Search'
 import { TableProps } from 'antd/lib/table/Table'
+import { objectRecursiveMerge } from '@/uitls/model/business'
+import { getFormValueFromName } from '@/components/model/Form/uitls'
 
 const { useFormData } = HtForm
 
@@ -44,7 +46,7 @@ const View = (props: searchTableType) => {
   } = propsSearch || {}
   const { apiRequest, onSuccess, defaultParams = {} } = propsUseRequest || {}
 
-  const { value, valueData, setValue } = useFormData({})
+  const { value, valueData, setValue, valueOtherData } = useFormData({})
   const [dataSource, setDataSource] = useState([])
   const [searchData, setSearchData] = useState({})
 
@@ -82,8 +84,30 @@ const View = (props: searchTableType) => {
 
   // 只监听 searchData 和 checkedListSearch 所以搜索时记得更新searchData
   const listSearch = useMemo(() => {
-    let listData = [{ value: searchData, columns: columns as any }]
+    let listData: listSearchType[] = [
+      {
+        value: searchData,
+        columns: columns as any,
+        valueOtherData,
+        setItemList: [
+          {
+            name: 'spPlatform',
+            setChecked(item) {
+              const { value, valueOtherData, name } = item
+              const data = objectRecursiveMerge(value, valueOtherData.value)
+              const nameData = getFormValueFromName(data, name)
+              return (
+                <div>
+                  {nameData.selectLabel}:{nameData.option}
+                </div>
+              )
+            }
+          }
+        ]
+      }
+    ]
     if (isTrue(checkedListSearch)) {
+      // @ts-ignore
       listData = [...checkedListSearch, ...listData]
     }
     return listData
@@ -106,6 +130,7 @@ const View = (props: searchTableType) => {
         valueData={valueData}
         setValue={setValue}
         columns={columns}
+        valueOtherData={valueOtherData}
         onChange={setValue}
         onFinish={onFinish}
         {...{ ...searchAttrs, onReset: onReset }}

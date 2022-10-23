@@ -1,21 +1,25 @@
 import React, { Fragment, useMemo } from 'react'
 import { deepClone, isString, isTrue } from 'html-mzc-tool'
 import { Tag } from 'antd'
+import {
+  getFormValueFromName,
+  setNameToValue
+} from '@/components/model/Form/uitls'
 
 export type listSearchType = {
   value: ObjectMap
-  // setValue: (v: any) => void
   columns: columnType[]
-  setNameItem?: ObjectMap<string, (item: tagItemType) => React.ReactElement>
-  // deleteNameItem?: ObjectMap<
-  //   string,
-  //   (item: tagItemType | { [index: string]: any }) => void
-  // >
+  setItemList?: {
+    name: any
+    setChecked?: (item: tagItemType) => React.ReactElement
+    [index: string]: any
+  }[]
+  valueOtherData?: { value: ObjectMap }
 }
 
 type columnType = { label: string; name: string }
 type tagItemType = Omit<listSearchType, 'columns'> &
-  columnType & { onSearch: (item) => void }
+  columnType & { onSearch: (item) => void; nameData: any }
 
 const CheckedTag = (props: {
   listSearch: listSearchType[]
@@ -28,8 +32,9 @@ const CheckedTag = (props: {
       const { value, columns, ...attrs } = item
       if (!isTrue(value)) return
       columns.forEach((res) => {
-        if (isTrue(value[res.name])) {
-          data.push(deepClone({ ...res, ...attrs, value }))
+        const nameData = getFormValueFromName(value, res.name)
+        if (isTrue(nameData)) {
+          data.push(deepClone({ ...res, ...attrs, value, nameData }))
         }
       })
     })
@@ -40,22 +45,25 @@ const CheckedTag = (props: {
   function closeTag(e: any, item: tagItemType | { [index: string]: any }) {
     e.preventDefault()
     const { value, name } = item
-    const data = deepClone(value)
-    delete data[name]
+    const data = setNameToValue(value, name, () => undefined)
     onSearch(data)
   }
   function getTag(item: tagItemType) {
-    const { label, name, value, setNameItem } = item
-    if (!isString(value[name]) || (isTrue(setNameItem) && setNameItem[name])) {
-      return isTrue(setNameItem) && setNameItem[name] ? (
-        setNameItem[name](item)
-      ) : (
-        <></>
-      )
+    const { label, name, setItemList, nameData } = item
+    console.log('getTag', item)
+    if (!(isString(nameData) && isTrue(label))) {
+      if (isTrue(setItemList)) {
+        return (
+          setItemList
+            .filter((res) => name == res.name && isTrue(res.setChecked))
+            .map((res) => res.setChecked)?.[0]?.(item) || []
+        )
+      }
+      return <></>
     }
     return (
       <Tag closable onClose={(e) => closeTag(e, item)}>
-        {label}: {value[name]}
+        {label}: {nameData}
       </Tag>
     )
   }

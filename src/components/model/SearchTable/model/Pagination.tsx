@@ -8,7 +8,6 @@ export default (
     pageSize: 10
   }
 ) => {
-  console.log(props)
   if (!props.total) return ''
   return (
     <div style={{ textAlign: 'right', margin: '8px' }}>
