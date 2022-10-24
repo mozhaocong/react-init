@@ -5,12 +5,15 @@ import {
   getFormValueFromName,
   setNameToValue
 } from '@/components/model/Form/uitls'
+import { objectRecursiveMerge } from '@/uitls/model/business'
+
+type checkedName = string | number | Array<string | number>
 
 export type listSearchType = {
   value: ObjectMap
   columns: columnType[]
   setItemList?: {
-    name: any
+    name: checkedName
     setChecked?: (item: tagItemType) => React.ReactElement
     [index: string]: any
   }[]
@@ -18,8 +21,47 @@ export type listSearchType = {
 }
 
 type columnType = { label: string; name: string }
-type tagItemType = Omit<listSearchType, 'columns'> &
+export type tagItemType = Omit<listSearchType, 'columns'> &
   columnType & { onSearch: (item) => void; nameData: any }
+
+export function baseSetChecked(config: {
+  item: tagItemType
+  label: string
+  text: string
+  closeName: checkedName
+  propsName?: Array<string | number> | string | number
+}): React.ReactElement {
+  const {
+    item,
+    label = 'selectLabel',
+    text = 'option',
+    closeName = ['spPlatform', 'option'],
+    propsName
+  } = config
+  const { value, valueOtherData } = item
+  const data = objectRecursiveMerge(value, valueOtherData.value)
+  let nameData = data
+  if (isTrue(propsName)) {
+    nameData = getFormValueFromName(data, propsName)
+  }
+  const selectLabel = nameData[label]
+  const option = nameData[text]
+  function closeTag(e, item) {
+    const { onSearch } = item
+    e.preventDefault()
+    const data = setNameToValue(value, closeName, () => undefined)
+    onSearch(data)
+  }
+  if (isTrue(selectLabel) && isTrue(option)) {
+    return (
+      <Tag closable onClose={(e) => closeTag(e, item)}>
+        {selectLabel}: {option}
+      </Tag>
+    )
+  } else {
+    return <></>
+  }
+}
 
 const CheckedTag = (props: {
   listSearch: listSearchType[]
@@ -34,7 +76,7 @@ const CheckedTag = (props: {
       columns.forEach((res) => {
         const nameData = getFormValueFromName(value, res.name)
         if (isTrue(nameData)) {
-          data.push(deepClone({ ...res, ...attrs, value, nameData }))
+          data.push(deepClone({ ...res, ...attrs, value, nameData, onSearch }))
         }
       })
     })
@@ -50,12 +92,16 @@ const CheckedTag = (props: {
   }
   function getTag(item: tagItemType) {
     const { label, name, setItemList, nameData } = item
-    console.log('getTag', item)
     if (!(isString(nameData) && isTrue(label))) {
       if (isTrue(setItemList)) {
         return (
           setItemList
-            .filter((res) => name == res.name && isTrue(res.setChecked))
+            .filter((res) => {
+              return (
+                JSON.stringify(name) == JSON.stringify(res.name) &&
+                isTrue(res.setChecked)
+              )
+            })
             .map((res) => res.setChecked)?.[0]?.(item) || []
         )
       }

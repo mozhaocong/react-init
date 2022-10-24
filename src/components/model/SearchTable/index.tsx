@@ -7,8 +7,11 @@ import { deepClone, isArray, isTrue } from 'html-mzc-tool'
 import CheckedTag, { listSearchType } from './model/CheckedTag'
 import Search from './model/Search'
 import { TableProps } from 'antd/lib/table/Table'
-import { objectRecursiveMerge } from '@/uitls/model/business'
-import { getFormValueFromName } from '@/components/model/Form/uitls'
+import {
+  getFormValueFromName,
+  setNameToValue,
+  setSlotValueOther
+} from '@/components/model/Form/uitls'
 
 const { useFormData } = HtForm
 
@@ -17,7 +20,14 @@ type searchTableType = {
     _FormType,
     'value' | 'valueData' | 'setValue' | 'loading' | 'onChange'
   > &
-    Required<Pick<_FormType, 'columns' | 'fId'>>
+    Required<Pick<_FormType, 'columns' | 'fId'>> & {
+      setItemList?: Array<{
+        name: any
+        setChecked?: (item: ObjectMap) => React.ReactElement
+        setSearchData?: (item: ObjectMap, nameData: ObjectMap) => ObjectMap
+      }>
+      slotList: any
+    }
   table: Omit<TableProps<any>, 'pagination' | 'loading' | 'dataSource'> &
     Required<Pick<TableProps<any>, 'columns' | 'rowKey'>>
   checkedListSearch?: listSearchType[]
@@ -28,6 +38,7 @@ type searchTableType = {
       pageConfig?: { pageSize: number; current: number }
     ) => ObjectMap[]
     defaultParams?: ObjectMap
+    setSearchData?: (item: ObjectMap) => ObjectMap
   }
 }
 
@@ -42,9 +53,16 @@ const View = (props: searchTableType) => {
     onFinish: propsOnFinish,
     columns,
     fId,
+    setItemList,
+    slotList,
     ...searchAttrs
   } = propsSearch || {}
-  const { apiRequest, onSuccess, defaultParams = {} } = propsUseRequest || {}
+  const {
+    apiRequest,
+    onSuccess,
+    defaultParams = {},
+    setSearchData: propsSetSearchData
+  } = propsUseRequest || {}
 
   const { value, valueData, setValue, valueOtherData } = useFormData({})
   const [dataSource, setDataSource] = useState([])
@@ -74,7 +92,20 @@ const View = (props: searchTableType) => {
         }
       },
       setSearchData(item) {
-        return item
+        let data = deepClone(item)
+        if (isTrue(setItemList)) {
+          setItemList.forEach((res) => {
+            const nameData = getFormValueFromName(data, res.name)
+            if (isTrue(nameData) && res.setSearchData) {
+              data = res.setSearchData(data, nameData)
+            }
+          })
+        }
+        if (propsSetSearchData) {
+          data = propsSetSearchData(data)
+        }
+
+        return data
       }
     }
   )
@@ -89,21 +120,7 @@ const View = (props: searchTableType) => {
         value: searchData,
         columns: columns as any,
         valueOtherData,
-        setItemList: [
-          {
-            name: 'spPlatform',
-            setChecked(item) {
-              const { value, valueOtherData, name } = item
-              const data = objectRecursiveMerge(value, valueOtherData.value)
-              const nameData = getFormValueFromName(data, name)
-              return (
-                <div>
-                  {nameData.selectLabel}:{nameData.option}
-                </div>
-              )
-            }
-          }
-        ]
+        setItemList
       }
     ]
     if (isTrue(checkedListSearch)) {
@@ -119,6 +136,22 @@ const View = (props: searchTableType) => {
     // 改变search的值
     setValue(value)
   }
+
+  useEffect(() => {
+    columns.forEach((item) => {
+      if (isTrue(slotList)) {
+        const slotData = slotList[item.slotName]
+        if (item.slotName && slotData) {
+          const { initialValue, slotList } = slotData
+          slotList.forEach((slotItem) => {
+            if (slotItem.key === initialValue.select) {
+              setSlotValueOther(slotData, valueOtherData, slotItem.label)
+            }
+          })
+        }
+      }
+    })
+  }, [slotList])
 
   return (
     <div>

@@ -1,9 +1,10 @@
 import { baseFormColumnsItem } from '@/components/model/Form/indexType'
 import React from 'react'
-import { axiosGet } from 'html-mzc-tool'
+import { axiosGet, deepClone, isTrue } from 'html-mzc-tool'
 import { Input } from 'antd'
 import { SearchTable } from '@/components'
 import { setFormColumnsSlotName } from '@/components/model/Form/uitls'
+import { baseSetChecked } from '@/components/model/SearchTable/model/CheckedTag'
 
 function orders(data = {}) {
   return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
@@ -15,7 +16,6 @@ class searchColumn extends baseFormColumnsItem {
     this.setColumns([
       {
         label: '编号检索',
-        initialValue: 1,
         name: 'no',
         component: () => <Input />
       },
@@ -23,19 +23,35 @@ class searchColumn extends baseFormColumnsItem {
       { label: '运单号', name: 'shipping_no', component: () => <Input /> },
       { label: '订单类型', name: 'type', component: () => <Input /> },
       { label: '发货方式', name: 'delivery_type', component: () => <Input /> },
-      { slotName: 'spPlatform', name: ['spPlatform'] }
+      { slotName: 'spPlatform', name: 'spPlatformSelect' },
+      { slotName: 'test2', name: 'test2' }
     ])
   }
 }
 
 export const pageSate = {
+  // 组件列表slot name
   spPlatform: {
-    // 组件列表slot name
-    selectNane: ['spPlatform', 'select'], // form表单的Name
-    optionNane: ['spPlatform', 'option'],
+    selectNane: 'spPlatformSelect', // form表单的Name
+    optionNane: 'spPlatformOption',
     initialValue: {
-      select: 'sellerSku',
-      option: 1
+      select: 'sellerSku'
+    },
+    placeholder: 'Select province',
+    slotType: 'selectOption', // 组件模式
+    component: () => {
+      return <Input />
+    },
+    slotList: [
+      { label: '创建人', key: 'sku' },
+      { label: '销售负责人', key: 'sellerSku' }
+    ]
+  },
+  test2: {
+    selectNane: ['test2', 'select'], // form表单的Name
+    optionNane: ['test2', 'option'],
+    initialValue: {
+      select: 'sellerSku'
     },
     placeholder: 'Select province',
     slotType: 'selectOption', // 组件模式
@@ -77,7 +93,54 @@ const View = () => {
     <SearchTable
       search={{
         fId: 'searchTest',
-        columns: setFormColumnsSlotName(new searchColumn().data, pageSate)
+        columns: setFormColumnsSlotName(new searchColumn().data, pageSate),
+        slotList: pageSate,
+        setItemList: [
+          {
+            name: 'spPlatformSelect',
+            setChecked(item: any) {
+              console.log('item', item)
+              return baseSetChecked({
+                item: item,
+                label: 'spPlatformSelectLabel',
+                text: 'spPlatformOption',
+                closeName: 'spPlatformOption'
+              })
+            }
+            // setSearchData(item, nameData) {
+            //   item = deepClone(item)
+            //   const { option, select } = nameData
+            //   if (isTrue(option)) {
+            //     item.option = option
+            //     item.select = select
+            //   }
+            //   delete item.spPlatform
+            //   return item
+            // }
+          },
+          {
+            name: 'test2',
+            setChecked(item: any) {
+              return baseSetChecked({
+                item: item,
+                label: 'selectLabel',
+                text: 'option',
+                closeName: ['test2', 'option'],
+                propsName: 'test2'
+              })
+            },
+            setSearchData(item, nameData) {
+              item = deepClone(item)
+              const { option, select } = nameData
+              if (isTrue(option)) {
+                item.option = option
+                item.select = select
+              }
+              delete item.test2
+              return item
+            }
+          }
+        ]
       }}
       table={{ columns: tableColumns, rowKey: 'no' }}
       useRequest={{
