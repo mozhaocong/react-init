@@ -1,5 +1,5 @@
 import { debounce, deepClone, isTrue } from 'html-mzc-tool'
-import { Form, Select } from 'antd'
+import { Col, Form, Row, Select } from 'antd'
 import React, { useMemo, useRef, useState } from 'react'
 import { getFormValueFromName, setNameToValue, setSlotValueOther } from './tool'
 
@@ -69,53 +69,66 @@ export function setSlotComponents(item, stateData, pageSate, slotName) {
   const { value } = stateData
   setValueDebounce(item, stateData, pageSate, slotName)
   return (
-    <Form.Item label={item.label}>
+    <Col span={8}>
       <Form.Item
-        initialValue={item.initialValue?.select}
-        name={item.selectNane}
-        noStyle
-        rules={[{ required: true, message: 'Province is required' }]}
+        label={item.label}
+        labelCol={{ span: 0 }}
+        wrapperCol={{ span: 24 }}
       >
-        <Select
-          placeholder={item.placeholder}
-          onChange={(e, res) => selectChange(e, res, item, stateData)}
-        >
-          {item.slotList.map((res) => {
-            return (
-              <Option value={res.key} key={res.key}>
-                {res.label}
-              </Option>
-            )
-          })}
-        </Select>
-      </Form.Item>
-      {isTrue(
-        getFormValueFromName(value, item.selectNane) ??
-          item?.initialValue?.select
-      ) &&
-        item.slotList
-          .filter((res) => {
-            return (
-              res.key ===
-              (getFormValueFromName(value, item.selectNane) ??
-                item?.initialValue?.select)
-            )
-          })
-          .map((res) => {
-            return (
-              <Form.Item
-                name={res.name ?? item.optionNane}
-                initialValue={res.initialValue ?? item.initialValue?.option}
-                key={res.key}
-                noStyle
+        <Row>
+          <Col span={12}>
+            <Form.Item
+              initialValue={item.initialValue?.select}
+              name={item.selectNane}
+              noStyle
+              rules={[{ required: true, message: 'Province is required' }]}
+            >
+              <Select
+                placeholder={item.placeholder}
+                onChange={(e, res) => selectChange(e, res, item, stateData)}
               >
-                {res.component
-                  ? res.component(stateData)
-                  : item.component(stateData)}
-              </Form.Item>
-            )
-          })}
-    </Form.Item>
+                {item.slotList.map((res) => {
+                  return (
+                    <Option value={res.key} key={res.key}>
+                      {res.label}
+                    </Option>
+                  )
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+          {isTrue(
+            getFormValueFromName(value, item.selectNane) ??
+              item?.initialValue?.select
+          ) &&
+            item.slotList
+              .filter((res) => {
+                return (
+                  res.key ===
+                  (getFormValueFromName(value, item.selectNane) ??
+                    item?.initialValue?.select)
+                )
+              })
+              .map((res) => {
+                return (
+                  <Col span={12} key={res.key}>
+                    <Form.Item
+                      name={res.name ?? item.optionNane}
+                      initialValue={
+                        res.initialValue ?? item.initialValue?.option
+                      }
+                      noStyle
+                    >
+                      {res.component
+                        ? res.component(stateData)
+                        : item.component(stateData)}
+                    </Form.Item>
+                  </Col>
+                )
+              })}
+        </Row>
+      </Form.Item>
+    </Col>
   )
 }
 

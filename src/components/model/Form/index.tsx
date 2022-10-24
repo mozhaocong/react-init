@@ -13,7 +13,7 @@ const _Form = (props: _FormType) => {
     columns,
     labelCol = { span: 8 },
     wrapperCol = { span: 8 },
-    col = { span: 24 },
+    col = { span: 8 },
     labelAlign = 'right',
     style,
     onChange,
