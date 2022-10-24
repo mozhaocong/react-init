@@ -107,3 +107,10 @@ class testData extends baseFormColumnsItem {
 //     ])
 //   }
 // }
+
+export class baseTableColumns {
+  data: ColumnType<any>[]
+  setColumns(item: Array<ColumnType<any>>) {
+    this.data = item
+  }
+}

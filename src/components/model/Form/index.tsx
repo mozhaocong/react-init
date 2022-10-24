@@ -5,6 +5,7 @@ import FormItem from './components/formItem'
 import FormList from './components/formList'
 import FormTable from './components/formTable'
 import { _FormType } from '@/components/model/Form/indexType'
+import { isTrue } from 'html-mzc-tool'
 
 const _Form = (props: _FormType) => {
   const {
@@ -57,7 +58,7 @@ const _Form = (props: _FormType) => {
 
     form.setFieldsValue({ ...data, ...value } || {})
     // initialValues 第一次时 把数据传回value
-    if (isInitialValues.current) {
+    if (isInitialValues.current && isTrue(onChange)) {
       onChange({ ...data, ...value })
     }
     isInitialValues.current = false
@@ -116,8 +117,13 @@ const _Form = (props: _FormType) => {
 }
 
 export { _Form as default }
+
+const ShowText = (props) => {
+  return <div>{props.value}</div>
+}
 // 大写是组件 小写是方法
 _Form.useFormData = useFormData
 _Form.FormList = FormList
 _Form.FormTable = FormTable
 _Form.FormItem = FormItem
+_Form.ShowText = ShowText
