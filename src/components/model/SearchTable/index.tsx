@@ -9,9 +9,8 @@ import Search from './model/Search'
 import { TableProps } from 'antd/lib/table/Table'
 import {
   getFormValueFromName,
-  setNameToValue,
   setSlotValueOther
-} from '@/components/model/Form/uitls'
+} from '@/components/model/Form/uitls/tool'
 
 const { useFormData } = HtForm
 

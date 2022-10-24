@@ -1,6 +1,6 @@
 import { Form, Row, Spin } from 'antd'
 import React, { useEffect, useRef } from 'react'
-import { setFormDefValue, useFormData } from './uitls'
+import { useFormData } from './uitls'
 import FormItem from './components/formItem'
 import FormList from './components/formList'
 import FormTable from './components/formTable'
@@ -117,7 +117,6 @@ const _Form = (props: _FormType) => {
 
 export { _Form as default }
 // 大写是组件 小写是方法
-_Form.setFormDefValue = setFormDefValue
 _Form.useFormData = useFormData
 _Form.FormList = FormList
 _Form.FormTable = FormTable

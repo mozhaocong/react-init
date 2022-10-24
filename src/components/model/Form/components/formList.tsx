@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'antd'
 import RForm from '../index'
 import FormItem from './formItem'
-import { getFormName } from '../uitls'
+import { getFormName } from '../uitls/tool'
 import { _FormListType } from '@/components/model/Form/indexType'
 
 const _FormList = (props: _FormListType) => {

@@ -4,7 +4,7 @@ import { Tag } from 'antd'
 import {
   getFormValueFromName,
   setNameToValue
-} from '@/components/model/Form/uitls'
+} from '@/components/model/Form/uitls/tool'
 import { objectRecursiveMerge } from '@/uitls/model/business'
 
 type checkedName = string | number | Array<string | number>

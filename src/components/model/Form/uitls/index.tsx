@@ -1,35 +1,9 @@
-import { debounce, deepClone, isArray, isString, isTrue } from 'html-mzc-tool'
+import { debounce, deepClone, isTrue } from 'html-mzc-tool'
 import { Form, Select } from 'antd'
 import React, { useMemo, useRef, useState } from 'react'
-import {
-  arrayToObject,
-  getArrayToObjectTargetValue
-} from '@/uitls/model/business'
-import { data } from 'autoprefixer'
+import { getFormValueFromName, setNameToValue, setSlotValueOther } from './tool'
 
 const { Option } = Select
-
-export function setFormDefValue(row, data) {
-  const returnData = {}
-  row.forEach((item) => {
-    if (!isTrue(item.name) || !isTrue(data[item.name])) return
-    returnData[item.name] = data[item.name]
-  })
-  return returnData
-}
-
-export const getFormName = (fieldName, name) => {
-  let data = [fieldName]
-  if (isArray(fieldName)) {
-    data = fieldName
-  }
-  if (isArray(name)) {
-    data = [...data, ...name]
-  } else {
-    data.push(name)
-  }
-  return data
-}
 
 // 防抖 避免多少触发更新
 const setValueDebounce = debounce(setValueMethod, 10)
@@ -74,52 +48,6 @@ function setValueMethod(item, stateData, pageSate, slotName) {
   }
 }
 
-// 获取 Form value 的name， name 是数组或者字符
-export function getFormValueFromName(
-  value: ObjectMap,
-  item: Array<string | number> | string | number
-) {
-  if (isArray(item)) {
-    return getArrayToObjectTargetValue(value, item)
-  } else {
-    return deepClone(value[item as string])
-  }
-}
-
-export function setNameToValue(
-  value: ObjectMap,
-  setData: string | number | Array<string | number>,
-  setMethod: (item: any) => string | number | null | undefined
-) {
-  if (isArray(setData)) {
-    return arrayToObject(value, setData, setMethod)
-  } else if (isString(setData)) {
-    const data = deepClone(value)
-    data[setData] = setMethod(deepClone(data[setData]))
-    return data
-  } else {
-    return value
-  }
-}
-
-export function setSlotValueOther(item, valueOtherData, optionText) {
-  let selectNameLabel: any
-  if (isArray(item.selectNane)) {
-    selectNameLabel = deepClone(item.selectNane)
-    selectNameLabel[selectNameLabel.length - 1] =
-      selectNameLabel[selectNameLabel.length - 1] + 'Label'
-  } else {
-    selectNameLabel = item.selectNane + 'Label'
-  }
-  valueOtherData.value = setNameToValue(
-    valueOtherData.value,
-    selectNameLabel,
-    () => {
-      return optionText
-    }
-  )
-}
-
 function selectChange(e, option, item, stateDate) {
   const { valueData, setValue, valueOtherData } = stateDate
   let slotName = ''
@@ -130,22 +58,6 @@ function selectChange(e, option, item, stateDate) {
   })
 
   setSlotValueOther(item, valueOtherData, option.children)
-
-  // let selectNameLabel: any
-  // if (isArray(item.selectNane)) {
-  //   selectNameLabel = deepClone(item.selectNane)
-  //   selectNameLabel[selectNameLabel.length - 1] =
-  //     selectNameLabel[selectNameLabel.length - 1] + 'Label'
-  // } else {
-  //   selectNameLabel = item.selectNane + 'Label'
-  // }
-  // valueOtherData.value = setNameToValue(
-  //   valueOtherData.value,
-  //   selectNameLabel,
-  //   () => {
-  //     return option.children
-  //   }
-  // )
 
   const returnData = setNameToValue(valueData.value, slotName, () => {
     return undefined

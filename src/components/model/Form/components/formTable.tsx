@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { isArray, isFunctionOfOther, isTrue } from 'html-mzc-tool'
 import FormItem from './formItem'
 import { Table } from 'antd'
-import { getFormName, getFormValueFromName } from '../uitls'
+import { getFormName, getFormValueFromName } from '../uitls/tool'
 import RForm from '../index'
 import { _FormTableType } from '../indexType'
 
