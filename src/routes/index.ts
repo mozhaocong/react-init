@@ -6,6 +6,7 @@ import TestFormTable from '@/view/testFormTable'
 import Modal from '@/view/modal'
 import searchTable from '@/view/searchTable'
 import Page from '@/view/page'
+import FormSelect from '@/view/formSelect'
 const routes: any = [
   {
     path: '/',
@@ -38,6 +39,10 @@ const routes: any = [
       {
         path: 'page',
         component: Page
+      },
+      {
+        path: 'formSelect',
+        component: FormSelect
       }
     ]
   }
