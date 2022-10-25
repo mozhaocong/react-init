@@ -24,14 +24,20 @@ const _FormTable = (props: _FormTableType) => {
   }, [value, formName])
 
   const tableColumns = useMemo(() => {
-    const formValueData = getFormValueFromName(value, formName)
     const { valueData, setValue, publicProps, valueOtherData } = attrs
     return columns.map((item) => {
       const { dataIndex } = item
-      if (isTrue(item.render)) {
-        const oldRender = item.render
+      if (isTrue(item.render) || isTrue(item.component)) {
+        let oldRender: any
+        if (isTrue(item.render)) {
+          oldRender = item.render
+        } else if (isTrue(item.component)) {
+          oldRender = item.component
+        }
         // @ts-ignore
         item.render = (text, record, index) => {
+          const formValueData = getFormValueFromName(value, formName)
+          console.log('formValueData', formValueData, value, formName)
           const renderProps = {
             text: getFormValueFromName(formValueData[index], dataIndex),
             record: formValueData[index],
@@ -43,16 +49,21 @@ const _FormTable = (props: _FormTableType) => {
             setValue,
             publicProps
           }
-          return (
-            <FormItem
-              col={{ span: 24 }}
-              labelCol={{ span: 0 }}
-              wrapperCol={{ span: 24 }}
-              component={() => oldRender(renderProps)}
-              name={getFormName(formName, [index, dataIndex])}
-              rules={item.rules}
-            />
-          )
+
+          if (isTrue(item.render)) {
+            return oldRender(renderProps)
+          } else if (isTrue(item.component)) {
+            return (
+              <FormItem
+                col={{ span: 24 }}
+                labelCol={{ span: 0 }}
+                wrapperCol={{ span: 24 }}
+                component={() => oldRender(renderProps)}
+                name={getFormName(formName, [index, dataIndex])}
+                rules={item.rules}
+              />
+            )
+          }
         }
       }
       return item

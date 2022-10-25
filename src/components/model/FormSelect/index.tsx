@@ -35,4 +35,4 @@ const View = forwardRef((props: propsType, ref) => {
   )
 })
 
-export default View
+export default React.memo(View)

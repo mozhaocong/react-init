@@ -15,7 +15,7 @@ const App: React.FC = () => {
     form.setFieldsValue({ sights: [{}, {}] })
   }
 
-  const { value, setValue, valueData, rowList } = useFormData({ test: [{}] })
+  const { value, setValue, valueData } = useFormData({ test: [{}] })
 
   const data = [
     {

@@ -2,28 +2,27 @@ import React, { useMemo, useState } from 'react'
 import { Button } from 'antd'
 import { formRows, pageSate } from '@/view/testForm/configData'
 import { HtForm } from '@/components'
-import { useFormData } from '@/components/model/Form/uitls'
+import {
+  setFormColumnsSlotName,
+  useFormData
+} from '@/components/model/Form/uitls'
 
 const App = () => {
   const [form, seForm] = useState()
   const formData = useMemo(() => {
-    return new formRows({ formRef: form })
+    return new formRows({ formRef: form }).data
   }, [form])
 
-  const { value, setValue, valueData, rowList } = useFormData(
-    {
-      name: 'ASGASGA'
-    },
-    { rows: formData, rowSlots: pageSate }
-    // { rows: formData }
-  )
+  const { value, setValue, valueData } = useFormData({
+    name: 'ASGASGA'
+  })
 
   return (
     <div>
       {/*<HtSelect options={configBusinessDataOptions.integralType} />*/}
       <HtForm
         propsForm={seForm}
-        columns={rowList}
+        columns={setFormColumnsSlotName(formData, pageSate)}
         value={value}
         onChange={setValue}
         setValue={setValue}

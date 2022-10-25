@@ -4,9 +4,10 @@ import TestFormList from '@/view/testFormList'
 import TestFormAddFormList from '@/view/testFormAddFormList'
 import TestFormTable from '@/view/testFormTable'
 import Modal from '@/view/modal'
-import searchTable from '@/view/searchTable'
-import Page from '@/view/page'
+import SearchTable from '@/view/searchTable'
+import PageDetails from '@/view/pageDetails'
 import FormSelect from '@/view/formSelect'
+import PageCreate from '@/view/pageCreate'
 const routes: any = [
   {
     path: '/',
@@ -14,7 +15,7 @@ const routes: any = [
     children: [
       {
         path: 'searchTable',
-        component: searchTable
+        component: SearchTable
       },
       {
         path: 'modal',
@@ -37,8 +38,12 @@ const routes: any = [
         component: TestFormTable
       },
       {
-        path: 'page',
-        component: Page
+        path: 'pageDetails',
+        component: PageDetails
+      },
+      {
+        path: 'pageCreate',
+        component: PageCreate
       },
       {
         path: 'formSelect',

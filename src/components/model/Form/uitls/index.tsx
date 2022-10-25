@@ -151,8 +151,6 @@ export function setFormColumnsSlotName(item, pageSate) {
 }
 
 type useFormDataConfig = {
-  rows?: ObjectMap
-  rowSlots?: ObjectMap
   valueOtherData?: ObjectMap
 }
 export function useFormData(
@@ -162,14 +160,9 @@ export function useFormData(
   value: ObjectMap
   setValue: (item: any) => void
   valueData: { value: ObjectMap }
-  rowList: any[]
   valueOtherData: { value: ObjectMap }
 } {
-  const {
-    rows = {},
-    rowSlots = {},
-    valueOtherData: propsOtherData = {}
-  } = config
+  const { valueOtherData: propsOtherData = {} } = config
 
   const valueData = useRef({ value: item })
   const valueOtherData = useRef({ value: propsOtherData })
@@ -182,18 +175,10 @@ export function useFormData(
     setValue(v)
   }
 
-  const rowList = useMemo(() => {
-    if (isTrue(rows)) {
-      const { data = [] } = rows
-      return setFormColumnsSlotName(data, rowSlots)
-    }
-  }, [rows])
-
   return {
     value,
     setValue: handle,
     valueData: valueData.current,
-    rowList,
     valueOtherData: valueOtherData.current
   }
 }

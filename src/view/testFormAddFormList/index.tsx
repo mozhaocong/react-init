@@ -52,19 +52,16 @@ class formData {
 }
 
 const View = () => {
-  const { value, setValue, valueData, rowList } = useFormData(
-    {
-      name: 'ASGASGA',
-      test: [{}]
-    },
-    { rows: new formData() }
-  )
+  const { value, setValue, valueData } = useFormData({
+    name: 'ASGASGA',
+    test: [{}]
+  })
 
   return (
     <div>
       <div> FormAddFormList</div>
       <HtForm
-        columns={rowList}
+        columns={new formData().data}
         value={value}
         onChange={setValue}
         setValue={setValue}
