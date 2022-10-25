@@ -26,12 +26,12 @@ export type tagItemType = Omit<listSearchType, 'columns'> &
 
 export function baseSetChecked(config: {
   item: tagItemType
-  label: string
-  text: string
+  label?: string
+  text?: string
   closeName: checkedName
   propsName?: Array<string | number> | string | number
-  setOption?: (item: ObjectMap) => string | undefined
-  setLabel?: (item: ObjectMap) => string | undefined
+  setOption?: (item: ObjectMap, nameData: any) => string | number | undefined
+  setLabel?: (item: ObjectMap, nameData: any) => string | number | undefined
 }): React.ReactElement {
   const {
     item,
@@ -54,10 +54,10 @@ export function baseSetChecked(config: {
   selectLabel = nameData[label]
   option = nameData[text]
   if (setOption) {
-    option = setOption(data)
+    option = setOption(data, nameData)
   }
   if (setLabel) {
-    selectLabel = setLabel(data)
+    selectLabel = setLabel(data, nameData)
   }
 
   function closeTag(e, item) {

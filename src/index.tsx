@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import 'antd/dist/antd.css'
 import { axiosInit, isTrue } from 'html-mzc-tool'
+import 'moment/locale/zh-cn'
 
 axiosInit({
   setConfigHeaders() {

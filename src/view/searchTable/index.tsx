@@ -1,10 +1,13 @@
 import { baseFormColumnsItem } from '@/components/model/Form/indexType'
 import React from 'react'
 import { axiosGet, deepClone, isTrue } from 'html-mzc-tool'
-import { Input } from 'antd'
+import { Input, DatePicker } from 'antd'
 import { SearchTable } from '@/components'
 import { setFormColumnsSlotName } from '@/components/model/Form/uitls'
 import { baseSetChecked } from '@/components/model/SearchTable/model/CheckedTag'
+const { RangePicker } = DatePicker
+import dayjs from 'dayjs'
+import moment from 'moment'
 
 function orders(data = {}) {
   return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
@@ -24,7 +27,7 @@ class searchColumn extends baseFormColumnsItem {
       { label: '订单类型', name: 'type', component: () => <Input /> },
       { label: '发货方式', name: 'delivery_type', component: () => <Input /> },
       { slotName: 'spPlatform', name: 'spPlatformSelect' },
-      { slotName: 'test2', name: 'test2' }
+      { slotName: 'rangePicker', name: 'rangePicker' }
     ])
   }
 }
@@ -47,20 +50,28 @@ export const pageSate = {
       { label: '销售负责人', key: 'sellerSku' }
     ]
   },
-  test2: {
-    selectNane: ['test2', 'select'], // form表单的Name
-    optionNane: ['test2', 'option'],
+  rangePicker: {
+    selectNane: ['rangePicker', 'type'], // form表单的Name
+    optionNane: ['rangePicker', 'value'],
     initialValue: {
-      select: 'sellerSku'
+      select: 'createTime'
     },
     placeholder: 'Select province',
     slotType: 'selectOption', // 组件模式
-    component: () => {
-      return <Input />
+    component: (item) => {
+      console.log('item', item)
+      return (
+        <RangePicker
+          format="YYYY-MM-DD"
+          onChange={(value) => {
+            console.log(value)
+          }}
+        />
+      )
     },
     slotList: [
-      { label: '创建人', key: 'sku' },
-      { label: '销售负责人', key: 'sellerSku' }
+      { label: '创建时间', key: 'createTime' },
+      { label: '更新时间', key: 'updateTime' }
     ]
   }
 }
@@ -99,7 +110,6 @@ const View = () => {
           {
             name: 'spPlatformSelect',
             setChecked(item: any) {
-              console.log('item', item)
               return baseSetChecked({
                 item: item,
                 label: 'spPlatformSelectLabel',
@@ -119,24 +129,30 @@ const View = () => {
             // }
           },
           {
-            name: 'test2',
+            name: 'rangePicker',
             setChecked(item: any) {
               return baseSetChecked({
                 item: item,
-                label: 'selectLabel',
-                text: 'option',
-                closeName: ['test2', 'option'],
-                propsName: 'test2'
+                label: 'typeLabel',
+                setOption(item, nameData) {
+                  const data =
+                    nameData?.value?.map((res) => {
+                      return moment(res).format('YYYY-MM-DD')
+                    }) || []
+                  return data.join(',')
+                },
+                closeName: ['rangePicker', 'value'],
+                propsName: 'rangePicker'
               })
             },
             setSearchData(item, nameData) {
-              item = deepClone(item)
-              const { option, select } = nameData
-              if (isTrue(option)) {
-                item.option = option
-                item.select = select
-              }
-              delete item.test2
+              const data =
+                nameData.value?.map((res) => {
+                  return moment(res).format('YYYY-MM-DD')
+                }) || []
+              item.rangePickerType = nameData.type
+              item.rangePickerData = data.join(',')
+              delete item.rangePicker
               return item
             }
           }
