@@ -30,22 +30,36 @@ export function baseSetChecked(config: {
   text: string
   closeName: checkedName
   propsName?: Array<string | number> | string | number
+  setOption?: (item: ObjectMap) => string | undefined
+  setLabel?: (item: ObjectMap) => string | undefined
 }): React.ReactElement {
   const {
     item,
     label = 'selectLabel',
     text = 'option',
     closeName = ['spPlatform', 'option'],
-    propsName
+    propsName,
+    setOption,
+    setLabel
   } = config
   const { value, valueOtherData } = item
   const data = objectRecursiveMerge(value, valueOtherData.value)
+
+  let option
+  let selectLabel
   let nameData = data
   if (isTrue(propsName)) {
     nameData = getFormValueFromName(data, propsName)
   }
-  const selectLabel = nameData[label]
-  const option = nameData[text]
+  selectLabel = nameData[label]
+  option = nameData[text]
+  if (setOption) {
+    option = setOption(data)
+  }
+  if (setLabel) {
+    selectLabel = setLabel(data)
+  }
+
   function closeTag(e, item) {
     const { onSearch } = item
     e.preventDefault()

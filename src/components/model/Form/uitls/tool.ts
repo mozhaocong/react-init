@@ -23,6 +23,9 @@ export function getFormValueFromName(
   value: ObjectMap,
   item: Array<string | number> | string | number
 ) {
+  if (!(isTrue(value) && isTrue(item))) {
+    return ''
+  }
   if (isArray(item)) {
     return getArrayToObjectTargetValue(value, item)
   } else {

@@ -38,9 +38,8 @@ export interface _FormTableType extends Omit<_FormType, 'columns'> {
 export interface ColumnTypeForm<T>
   extends Omit<ColumnType<unknown>, 'render'>,
     Pick<FormItemProps, 'rules'> {
-  dataIndex: any
+  dataIndex?: any
   render?: (item: T) => React.ReactElement
-  component?: (item: T) => React.ReactElement
 }
 
 interface formPublicProps {

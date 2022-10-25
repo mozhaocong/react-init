@@ -8,6 +8,7 @@ import SearchTable from '@/view/searchTable'
 import PageDetails from '@/view/pageDetails'
 import FormSelect from '@/view/formSelect'
 import PageCreate from '@/view/pageCreate'
+import PageSplitOrder from '@/view/pageSplitOrder'
 const routes: any = [
   {
     path: '/',
@@ -48,6 +49,10 @@ const routes: any = [
       {
         path: 'formSelect',
         component: FormSelect
+      },
+      {
+        path: 'pageSplitOrder',
+        component: PageSplitOrder
       }
     ]
   }

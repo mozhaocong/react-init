@@ -124,6 +124,7 @@ const ShowText = (props) => {
 // 大写是组件 小写是方法
 _Form.useFormData = useFormData
 _Form.FormList = FormList
+_Form.FormItem = FormItem
 _Form.FormTable = FormTable
 _Form.FormItem = FormItem
 _Form.ShowText = ShowText

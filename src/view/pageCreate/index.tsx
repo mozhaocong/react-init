@@ -4,17 +4,56 @@ import {
   baseFormTableColumnsItem
 } from '@/components/model/Form/indexType'
 import { HtForm } from '@/components'
-import { Input } from 'antd'
+import { Button, Input } from 'antd'
 import { useFormData } from '@/components/model/Form/uitls'
+import { deepClone } from 'html-mzc-tool'
 const { ShowText, FormTable } = HtForm
+
+const Xuhao = (props) => {
+  return <div>{props.index + 1}</div>
+}
 
 class formTable extends baseFormTableColumnsItem {
   constructor() {
     super()
     this.setColumns([
-      { dataIndex: 'a1', title: '序号', component: () => <Input /> },
-      { dataIndex: 'a2', title: 'SKU图片', component: () => <Input /> },
-      { dataIndex: 'a3', title: 'SKU', component: () => <Input /> }
+      { title: '序号', render: (item) => <Xuhao {...item} /> },
+      { dataIndex: 'a2', title: 'SKU图片', render: () => <Input /> },
+      { dataIndex: 'a3', title: 'SKU', render: () => <Input /> },
+      { dataIndex: 'a4', title: '采购数', render: () => <Input /> },
+      { dataIndex: 'a4', title: '变体属性', render: () => <Input /> },
+      { dataIndex: 'a4', title: '采购数', render: () => <Input /> },
+      {
+        title: '操作',
+        render: (item) => {
+          const { value, index, setValue } = item
+          const cloneData = deepClone(value)
+          const data = value.test || []
+          return (
+            <>
+              <Button
+                onClick={() => {
+                  cloneData.test.splice(index, 1)
+                  setValue(cloneData)
+                }}
+              >
+                删除
+              </Button>
+              {data.length === index + 1 && (
+                <Button
+                  onClick={() => {
+                    cloneData.test.push({})
+                    console.log(cloneData)
+                    setValue(cloneData)
+                  }}
+                >
+                  添加行
+                </Button>
+              )}
+            </>
+          )
+        }
+      }
     ])
   }
 }
@@ -48,7 +87,7 @@ class form extends baseFormColumnsItem {
 const View = () => {
   const { value, setValue, ...attrs } = useFormData({
     c1: '1',
-    test: [{ a1: 1 }, { a1: 2 }]
+    test: [{ a2: 1 }, { a2: 2 }]
   })
   return (
     <div>
@@ -60,6 +99,13 @@ const View = () => {
         onChange={setValue}
         columns={new form().data}
       />
+      <Button
+        onClick={() => {
+          console.log(value)
+        }}
+      >
+        查看
+      </Button>
     </div>
   )
 }

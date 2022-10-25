@@ -5,9 +5,13 @@ export type configBusinessDataOptionsType = {
   [T in keyof businessOptObjectType]: any[]
 }
 export const businessOptObject = {
-  baseYesNoStatus: {
-    0: '否',
-    1: '是'
+  supplierSplitType: {
+    1: '大货采购',
+    2: '加工采购'
+  },
+  supplierOfferType: {
+    1: '我方提供原料',
+    2: '不提供原料'
   },
   baseStatus: {
     0: '禁用',

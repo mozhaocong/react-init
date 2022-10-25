@@ -1,9 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { isArray, isFunctionOfOther, isTrue } from 'html-mzc-tool'
+import {
+  isArray,
+  isFunctionOfOther,
+  isObject,
+  isString,
+  isTrue
+} from 'html-mzc-tool'
 import FormItem from './formItem'
 import { Table } from 'antd'
 import { getFormName, getFormValueFromName } from '../uitls/tool'
 import RForm from '../index'
+import './formTable.less'
 import { _FormTableType } from '../indexType'
 
 const _FormTable = (props: _FormTableType) => {
@@ -23,23 +30,49 @@ const _FormTable = (props: _FormTableType) => {
     setFormValue(formData)
   }, [value, formName])
 
+  function setRulesTitle(title, rules) {
+    if (!(isTrue(rules) && isString(title))) return title
+    let isRequired = false
+    if (isArray(rules)) {
+      rules.forEach((item: any) => {
+        if (item.required) {
+          isRequired = true
+        }
+      })
+    } else if (isObject(rules)) {
+      isRequired = !!rules.required
+    } else {
+      return title
+    }
+    if (isRequired) {
+      return (
+        <span>
+          <span style={{ color: 'red' }}>*</span>
+          {title}
+        </span>
+      )
+    } else {
+      return title
+    }
+  }
+
   const tableColumns = useMemo(() => {
+    const formValueData = getFormValueFromName(value, formName)
     const { valueData, setValue, publicProps, valueOtherData } = attrs
     return columns.map((item) => {
-      const { dataIndex } = item
-      if (isTrue(item.render) || isTrue(item.component)) {
-        let oldRender: any
-        if (isTrue(item.render)) {
-          oldRender = item.render
-        } else if (isTrue(item.component)) {
-          oldRender = item.component
-        }
+      const { dataIndex, title, rules } = item
+      if (isTrue(title)) {
+        item.title = setRulesTitle(title, rules)
+      }
+      console.log('label', title, rules)
+      if (isTrue(item.render)) {
+        const oldRender = item.render
         // @ts-ignore
         item.render = (text, record, index) => {
-          const formValueData = getFormValueFromName(value, formName)
-          console.log('formValueData', formValueData, value, formName)
           const renderProps = {
-            text: getFormValueFromName(formValueData[index], dataIndex),
+            text: isTrue(dataIndex)
+              ? getFormValueFromName(formValueData[index], dataIndex)
+              : formValueData[index],
             record: formValueData[index],
             index,
             item,
@@ -50,20 +83,19 @@ const _FormTable = (props: _FormTableType) => {
             publicProps
           }
 
-          if (isTrue(item.render)) {
-            return oldRender(renderProps)
-          } else if (isTrue(item.component)) {
-            return (
-              <FormItem
-                col={{ span: 24 }}
-                labelCol={{ span: 0 }}
-                wrapperCol={{ span: 24 }}
-                component={() => oldRender(renderProps)}
-                name={getFormName(formName, [index, dataIndex])}
-                rules={item.rules}
-              />
-            )
+          if (!isTrue(dataIndex)) {
+            return oldRender(renderProps) as any
           }
+          return (
+            <FormItem
+              col={{ span: 24 }}
+              labelCol={{ span: 0 }}
+              wrapperCol={{ span: 24 }}
+              component={() => oldRender(renderProps)}
+              name={getFormName(formName, [index, dataIndex])}
+              rules={item.rules}
+            />
+          )
         }
       }
       return item
