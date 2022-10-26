@@ -4,6 +4,8 @@ import App from './App'
 import 'antd/dist/antd.css'
 import { axiosInit, isTrue } from 'html-mzc-tool'
 import 'moment/locale/zh-cn'
+import { Provider } from 'react-redux'
+import store from '@/store/index'
 
 axiosInit({
   setConfigHeaders() {
@@ -15,7 +17,11 @@ axiosInit({
 function appInit() {
   // axiosInit()
   // ReactDOM.render(<App />, document.getElementById('app'))
-  ReactDOM.createRoot(document.getElementById('app')).render(<App />)
+  ReactDOM.createRoot(document.getElementById('app')).render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
 }
 
 appInit()

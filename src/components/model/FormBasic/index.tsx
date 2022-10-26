@@ -1,27 +1,32 @@
-import React, { forwardRef, useMemo } from 'react'
+import React, { forwardRef, useEffect, useMemo } from 'react'
 import { Select } from 'antd'
-import {
-  configBusinessDataOptions,
-  configBusinessDataOptionsType
-} from './config'
 import { SelectProps } from 'antd/lib/select'
+import { useDispatch, useSelector } from 'react-redux'
 import { isTrue } from 'html-mzc-tool'
+import { businessProp, getBasicDataList } from '@/store/features/business'
 
 interface propsType extends Omit<SelectProps, 'options'> {
-  prop: keyof configBusinessDataOptionsType
+  prop: keyof typeof businessProp
   filter?: (item: ObjectMap[]) => ObjectMap[]
 }
 
 const View = forwardRef((props: propsType, ref) => {
   const { prop, filter, ...attrs } = props
+  const dispatch = useDispatch()
+  const state = useSelector((state: any) => state)
   const options = useMemo(() => {
-    let data = configBusinessDataOptions[prop] || []
+    let data = state.business[prop]
     if (isTrue(filter)) {
       data = filter(data)
     }
     return data
-  }, [prop])
+  }, [state.business[prop]])
 
+  useEffect(() => {
+    if (!isTrue(state.business[prop])) {
+      dispatch(getBasicDataList({ type: prop }))
+    }
+  }, [])
   return (
     <Select
       // @ts-ignore

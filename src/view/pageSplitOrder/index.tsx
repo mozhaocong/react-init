@@ -9,7 +9,7 @@ import { useFormData } from '@/components/model/Form/uitls'
 import { deepClone, isTrue, debounce } from 'html-mzc-tool'
 import FormRadio from '@/components/model/FormRadio'
 import FormSelect from '@/components/model/FormSelect'
-const { ShowText, FormTable, FormItem } = HtForm
+const { FormTable, FormItem } = HtForm
 
 const Xuhao = (props) => {
   return <div>{props.index + 1}</div>

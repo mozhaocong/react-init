@@ -1,15 +1,18 @@
 import layout from '@/layout'
-import TestForm from '@/view/testForm'
-import TestFormList from '@/view/testFormList'
-import TestFormAddFormList from '@/view/testFormAddFormList'
-import TestFormTable from '@/view/testFormTable'
-import Modal from '@/view/modal'
-import SearchTable from '@/view/searchTable'
-import PageDetails from '@/view/pageDetails'
-import FormSelect from '@/view/formSelect'
-import PageCreate from '@/view/pageCreate'
-import PageSplitOrder from '@/view/pageSplitOrder'
-import ComponentsPage from '@/view/componentsPage'
+import testForm from '@/view/testForm'
+import testFormList from '@/view/testFormList'
+import testFormAddFormList from '@/view/testFormAddFormList'
+import testFormTable from '@/view/testFormTable'
+import modal from '@/view/modal'
+import searchTable from '@/view/searchTable'
+import pageDetails from '@/view/pageDetails'
+import formSelect from '@/view/formSelect'
+import pageCreate from '@/view/pageCreate'
+import pageSplitOrder from '@/view/pageSplitOrder'
+import componentsPage from '@/view/componentsPage'
+import testReducer from '@/view/testReducer'
+import formBasicData from '@/view/formBasicData'
+
 const routes: any = [
   {
     path: '/',
@@ -17,47 +20,55 @@ const routes: any = [
     children: [
       {
         path: 'searchTable',
-        component: SearchTable
+        component: searchTable
       },
       {
         path: 'modal',
-        component: Modal
+        component: modal
       },
       {
         path: 'testForm',
-        component: TestForm
+        component: testForm
       },
       {
         path: 'testFormAddFormList',
-        component: TestFormAddFormList
+        component: testFormAddFormList
       },
       {
         path: 'testFormList',
-        component: TestFormList
+        component: testFormList
       },
       {
         path: 'testFormTable',
-        component: TestFormTable
+        component: testFormTable
       },
       {
         path: 'pageDetails',
-        component: PageDetails
+        component: pageDetails
       },
       {
         path: 'pageCreate',
-        component: PageCreate
+        component: pageCreate
       },
       {
         path: 'formSelect',
-        component: FormSelect
+        component: formSelect
       },
       {
         path: 'pageSplitOrder',
-        component: PageSplitOrder
+        component: pageSplitOrder
       },
       {
         path: 'componentsPage',
-        component: ComponentsPage
+        component: componentsPage
+      },
+      {
+        path: 'formBasicData',
+        component: formBasicData
+      },
+      {
+        path: 'testReducer',
+        component: testReducer
       }
     ]
   }
