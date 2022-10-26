@@ -3,15 +3,15 @@ import testForm from '@/view/testForm'
 import testFormList from '@/view/testFormList'
 import testFormAddFormList from '@/view/testFormAddFormList'
 import testFormTable from '@/view/testFormTable'
-import modal from '@/view/modal'
-import searchTable from '@/view/searchTable'
+import testModal from '@/view/testModal'
+import pageSearchTable from '@/view/pageSearchTable'
 import pageDetails from '@/view/pageDetails'
-import formSelect from '@/view/formSelect'
+import testFormSelect from '@/view/testFormSelect'
 import pageCreate from '@/view/pageCreate'
 import pageSplitOrder from '@/view/pageSplitOrder'
 import componentsPage from '@/view/componentsPage'
 import testReducer from '@/view/testReducer'
-import formBasicData from '@/view/formBasicData'
+import testFormBasicData from '@/view/testFormBasicData'
 
 const routes: any = [
   {
@@ -19,12 +19,12 @@ const routes: any = [
     component: layout,
     children: [
       {
-        path: 'searchTable',
-        component: searchTable
+        path: 'pageSearchTable',
+        component: pageSearchTable
       },
       {
-        path: 'modal',
-        component: modal
+        path: 'testModal',
+        component: testModal
       },
       {
         path: 'testForm',
@@ -51,8 +51,8 @@ const routes: any = [
         component: pageCreate
       },
       {
-        path: 'formSelect',
-        component: formSelect
+        path: 'testFormSelect',
+        component: testFormSelect
       },
       {
         path: 'pageSplitOrder',
@@ -64,7 +64,7 @@ const routes: any = [
       },
       {
         path: 'formBasicData',
-        component: formBasicData
+        component: testFormBasicData
       },
       {
         path: 'testReducer',

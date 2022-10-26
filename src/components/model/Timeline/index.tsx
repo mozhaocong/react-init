@@ -47,7 +47,7 @@ const View = (props: timelineProps) => {
       {data.value.map((item, index) => {
         const { title, person, time, content } = item
         return (
-          <div className={'timeline-block'}>
+          <div className={'timeline-block'} key={index}>
             <div className={`timeline-ico `}>
               <div
                 className={`timeline-line-top ${
