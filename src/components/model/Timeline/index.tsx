@@ -26,9 +26,25 @@ const View = (props: timelineProps) => {
     ]
   }
 
+  function extendLine(type: boolean) {
+    return !!props.reverse === type ? (
+      <div className={'extend-line'}>
+        <div className={'timeline-line'} />
+      </div>
+    ) : (
+      <></>
+    )
+  }
+
   return (
-    <div style={{ width: '300px' }}>
-      {data.value.map((item) => {
+    <div
+      className={'timeline-components'}
+      style={{
+        width: '300px'
+      }}
+    >
+      {extendLine(true)}
+      {data.value.map((item, index) => {
         const { title, person, time, content } = item
         return (
           <div className={'timeline-block'}>
@@ -37,9 +53,11 @@ const View = (props: timelineProps) => {
                 className={`timeline-line-top ${
                   props.reverse ? 'timeline-line-top-reverse' : ''
                 }`}
-              ></div>
-              <div className={'ico-block'}></div>
-              <div className={'timeline-line-bottom'}></div>
+              />
+              <div
+                className={`ico-block ${!index ? 'current-ico-block' : ''}`}
+              />
+              <div className={'timeline-line'} />
             </div>
             <div
               className={`timeline-content-area ${
@@ -47,7 +65,7 @@ const View = (props: timelineProps) => {
               }`}
             >
               <div className={'content-block'}>
-                <div>
+                <div className={'content-title-time'}>
                   <span>{title}</span>
                   <span>
                     {person} {time}
@@ -59,6 +77,7 @@ const View = (props: timelineProps) => {
           </div>
         )
       })}
+      {extendLine(false)}
     </div>
   )
 }
