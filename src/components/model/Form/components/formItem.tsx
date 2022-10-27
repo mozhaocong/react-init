@@ -1,7 +1,7 @@
 import React from 'react'
 import { isFunctionOfOther, isTrue } from 'html-mzc-tool'
 import { Col, Form } from 'antd'
-import { columnsItem } from '@/components/model/Form/indexType'
+import { columnsItem } from '../indexType'
 
 const View = (props: columnsItem): React.ReactElement => {
   const {

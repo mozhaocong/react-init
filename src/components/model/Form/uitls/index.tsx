@@ -10,7 +10,7 @@ import {
   formName,
   formPublicProps,
   formTablePublicProps
-} from '@/components/model/Form/indexType'
+} from '../indexType'
 
 const { Option } = Select
 

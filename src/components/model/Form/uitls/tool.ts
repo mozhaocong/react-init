@@ -1,8 +1,11 @@
-import { deepClone, isArray, isString, isTrue } from 'html-mzc-tool'
 import {
+  deepClone,
+  isArray,
+  isString,
+  isTrue,
   arrayToObject,
   getArrayToObjectTargetValue
-} from '@/uitls/model/business'
+} from 'html-mzc-tool'
 
 // 获取form name  fieldName:上级name，name:当前name
 export const getFormName = (fieldName, name) => {

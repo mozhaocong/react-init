@@ -3,7 +3,7 @@ import { Form } from 'antd'
 import RForm from '../index'
 import FormItem from './formItem'
 import { getFormName } from '../uitls/tool'
-import { _FormListType } from '@/components/model/Form/indexType'
+import { _FormListType } from '../indexType'
 
 const _FormList = (props: _FormListType) => {
   const { formName = '', columns = [], isForm = true, ...attrs } = props

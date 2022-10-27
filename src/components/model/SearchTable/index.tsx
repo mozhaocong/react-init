@@ -1,17 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { HtForm } from '@/components'
-import { _FormType } from '@/components/model/Form/indexType'
+import HtForm from '../Form'
+import { _FormType } from '../Form/indexType'
 import { Table } from 'antd'
 import { useRequest } from './hooks'
-import { isArray, isTrue } from 'html-mzc-tool'
+import { isArray, isTrue, deepClone } from 'html-mzc-tool'
 import CheckedTag, { listSearchType } from './model/CheckedTag'
 import Search from './model/Search'
 import { TableProps } from 'antd/lib/table/Table'
-import {
-  getFormValueFromName,
-  setSlotValueOther
-} from '@/components/model/Form/uitls/tool'
-import { deepClone } from '@/uitls/model'
+import { getFormValueFromName, setSlotValueOther } from '../Form/uitls/tool'
 
 const { useFormData } = HtForm
 

@@ -4,10 +4,10 @@ import { useFormData } from './uitls'
 import FormItem from './components/formItem'
 import FormList from './components/formList'
 import FormTable from './components/formTable'
-import { _FormType } from '@/components/model/Form/indexType'
+import { _FormType } from './indexType'
 import { isTrue } from 'html-mzc-tool'
 
-const _Form = (props: _FormType) => {
+let _Form: any = (props: _FormType) => {
   const {
     fId,
     loading,
@@ -116,6 +116,7 @@ const _Form = (props: _FormType) => {
   )
 }
 
+_Form = React.memo(_Form)
 export { _Form as default }
 
 const ShowText = (props) => {

@@ -1,5 +1,5 @@
-import { _FormType } from '@/components/model/Form/indexType'
-import { HtForm } from '@/components'
+import { _FormType } from '../../Form/indexType'
+import HtForm from '../../Form'
 import { Button } from 'antd'
 import React from 'react'
 

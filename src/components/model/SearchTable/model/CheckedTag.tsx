@@ -1,11 +1,12 @@
 import React, { Fragment, useMemo } from 'react'
-import { deepClone, isString, isTrue } from 'html-mzc-tool'
-import { Tag } from 'antd'
 import {
-  getFormValueFromName,
-  setNameToValue
-} from '@/components/model/Form/uitls/tool'
-import { objectRecursiveMerge } from '@/uitls/model/business'
+  deepClone,
+  isString,
+  isTrue,
+  objectRecursiveMerge
+} from 'html-mzc-tool'
+import { Tag } from 'antd'
+import { getFormValueFromName, setNameToValue } from '../../Form/uitls/tool'
 
 type checkedName = string | number | Array<string | number>
 
