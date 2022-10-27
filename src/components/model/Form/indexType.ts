@@ -42,13 +42,13 @@ export interface ColumnTypeForm<T>
   render?: (item: T) => React.ReactElement
 }
 
-interface formPublicProps {
+export interface formPublicProps {
   value: ObjectMap
   valueData: ObjectMap
   setValue: (item: ObjectMap) => void
   publicProps: ObjectMap
 }
-interface formListPublicProps extends formPublicProps {
+export interface formListPublicProps extends formPublicProps {
   res: ObjectMap // 当前条数据的值
   index: number // 当前数据下标
   add: () => void // 添加一条数据
@@ -56,7 +56,7 @@ interface formListPublicProps extends formPublicProps {
   field: ObjectMap // 组件内容生成的当前数据
 }
 
-interface formTablePublicProps extends Omit<formPublicProps, 'formRef'> {
+export interface formTablePublicProps extends Omit<formPublicProps, 'formRef'> {
   text: string | ObjectMap
   record: ObjectMap
   index: number
@@ -72,45 +72,4 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
   col?: ColProps
   style?: ObjectMap
   slotName?: string
-}
-
-export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
-  data: Array<T>
-  setColumns(item: Array<T>) {
-    this.data = item
-  }
-}
-
-export class baseFormListColumnsItem extends baseFormColumnsItem<
-  columnsItem<formListPublicProps>
-> {}
-
-export class baseFormTableColumnsItem extends baseFormColumnsItem<
-  ColumnTypeForm<formTablePublicProps>
-> {}
-
-class testData extends baseFormColumnsItem {
-  constructor() {
-    super()
-    this.setColumns([{ name: 'a', label: '12456' }])
-  }
-}
-
-// class testDataTable extends baseFormTableColumnsItem {
-//   constructor() {
-//     super()
-//     this.setColumns([
-//       {
-//         dataIndex: 'name',
-//         title: 'name'
-//       }
-//     ])
-//   }
-// }
-
-export class baseTableColumns {
-  data: ColumnType<any>[]
-  setColumns(item: Array<ColumnType<any>>) {
-    this.data = item
-  }
 }

@@ -1,11 +1,12 @@
 import React from 'react'
+
+import { HtForm } from '@/components'
 import {
+  useFormData,
   baseFormColumnsItem,
   baseTableColumns
-} from '@/components/model/Form/indexType'
-import { HtForm } from '@/components'
-import { useFormData } from '@/components/model/Form/uitls'
-import { Table, Tabs } from 'antd'
+} from '@/components/model/Form/uitls'
+import { Divider, Table, Tabs } from 'antd'
 import { mockDataSource } from '@/uitls/model/business'
 import BillingInfo from './model/billingInfo'
 import DeliveryInfo from './model/deliveryInfo'
@@ -33,6 +34,7 @@ class setData extends baseFormColumnsItem {
     super()
     this.setColumns([
       { name: 'a', label: '送货仓库', component: () => <ShowText /> },
+      { name: 'e', label: '业务约定交期', component: () => <ShowText /> },
       { name: 'b', label: '所属品牌', component: () => <ShowText /> },
       { name: 'c', label: '采购单备注', component: () => <ShowText /> }
     ])
@@ -57,12 +59,17 @@ const View = () => {
   const { value, setValue } = useFormData({
     a: '河南郑州包税物流中心',
     b: 'LUVME',
-    c: 'XXXXXXXXXXX'
+    c: 'XXXXXXXXXXX',
+    e: '2022-10-30'
   })
   return (
     <div>
+      <div>需求母单明细 赫特SPU: HTLM00001</div>
+      <Divider />
       <HtForm
-        col={{ span: 24 }}
+        col={{ span: 12 }}
+        labelCol={{ flex: '100px' }}
+        labelAlign={'left'}
         columns={new setData().data}
         value={value}
         onChange={setValue}

@@ -6,10 +6,28 @@ import FormSelect from '@/components/model/FormSelect'
 import FormRadio from '@/components/model/FormRadio'
 const View = () => {
   const [reverse, setReverse] = useState(false)
+
   return (
     <div>
       <Card title="Timeline">
-        <Timeline reverse={reverse} />
+        <Timeline
+          reverse={reverse}
+          value={[
+            { title: '待确认', person: 'admin', time: '2022-10-30 20:30:30' },
+            {
+              title: '待审核',
+              person: '周嘉敏',
+              time: '2022-10-30 20:30:30',
+              content: '审核拒绝原因：价格不合理'
+            },
+            {
+              title: '待审核',
+              person: '周嘉敏',
+              time: '2022-10-30 20:30:30',
+              content: '审核拒绝原因：价格不合理'
+            }
+          ]}
+        />
         <Button
           onClick={() => {
             setReverse(!reverse)

@@ -2,7 +2,7 @@ import React from 'react'
 import {
   baseFormColumnsItem,
   baseFormTableColumnsItem
-} from '@/components/model/Form/indexType'
+} from '@/components/model/Form/uitls'
 import { HtForm } from '@/components'
 import { Button, Col, Input } from 'antd'
 import { useFormData } from '@/components/model/Form/uitls'

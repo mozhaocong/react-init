@@ -1,5 +1,5 @@
 // 原料回库信息
-import { baseTableColumns } from '@/components/model/Form/indexType'
+import { baseTableColumns } from '@/components/model/Form/uitls'
 import { Table } from 'antd'
 import { mockDataSource } from '@/uitls/model/business'
 import React from 'react'

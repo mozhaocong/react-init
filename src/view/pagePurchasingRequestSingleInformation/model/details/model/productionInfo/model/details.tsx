@@ -1,10 +1,11 @@
 import React from 'react'
+
+import { HtForm } from '@/components'
 import {
+  useFormData,
   baseFormColumnsItem,
   baseTableColumns
-} from '@/components/model/Form/indexType'
-import { HtForm } from '@/components'
-import { useFormData } from '@/components/model/Form/uitls'
+} from '@/components/model/Form/uitls'
 import { Table } from 'antd'
 import { mockDataSource } from '@/uitls/model/business'
 const { ShowText } = HtForm

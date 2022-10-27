@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Table } from 'antd'
-import { baseTableColumns } from '@/components/model/Form/indexType'
+import { baseTableColumns } from '@/components/model/Form/uitls'
 import { mockDataSource } from '@/uitls/model/business'
 
 class table extends baseTableColumns {

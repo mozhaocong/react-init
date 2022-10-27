@@ -1,9 +1,11 @@
-import { baseFormColumnsItem } from '@/components/model/Form/indexType'
 import React from 'react'
 import { axiosGet } from 'html-mzc-tool'
 import { Input, DatePicker } from 'antd'
 import { SearchTable } from '@/components'
-import { setFormColumnsSlotName } from '@/components/model/Form/uitls'
+import {
+  setFormColumnsSlotName,
+  baseFormColumnsItem
+} from '@/components/model/Form/uitls'
 import { baseSetChecked } from '@/components/model/SearchTable/model/CheckedTag'
 const { RangePicker } = DatePicker
 import moment from 'moment'

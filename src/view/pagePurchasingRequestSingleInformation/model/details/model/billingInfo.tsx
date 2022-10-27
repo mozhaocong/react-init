@@ -1,6 +1,6 @@
 // 结算信息
 import React, { useEffect } from 'react'
-import { baseTableColumns } from '@/components/model/Form/indexType'
+import { baseTableColumns } from '@/components/model/Form/uitls'
 import { Table } from 'antd'
 import { mockDataSource } from '@/uitls/model/business'
 class table extends baseTableColumns {

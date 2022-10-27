@@ -1,7 +1,15 @@
 import { debounce, deepClone, isTrue } from 'html-mzc-tool'
 import { Col, Form, Row, Select } from 'antd'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { getFormValueFromName, setNameToValue, setSlotValueOther } from './tool'
+import { ColumnType } from 'antd/lib/table/interface'
+import {
+  columnsItem,
+  ColumnTypeForm,
+  formListPublicProps,
+  formPublicProps,
+  formTablePublicProps
+} from '@/components/model/Form/indexType'
 
 const { Option } = Select
 
@@ -180,5 +188,33 @@ export function useFormData(
     setValue: handle,
     valueData: valueData.current,
     valueOtherData: valueOtherData.current
+  }
+}
+
+export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
+  data: Array<T>
+  setColumns(item: Array<T>) {
+    this.data = item
+  }
+  serialNumber(item: {
+    index: number
+    [index: string]: any
+  }): React.ReactElement {
+    return <div>{item.index + 1}</div>
+  }
+}
+
+export class baseFormListColumnsItem extends baseFormColumnsItem<
+  columnsItem<formListPublicProps>
+> {}
+
+export class baseFormTableColumnsItem extends baseFormColumnsItem<
+  ColumnTypeForm<formTablePublicProps>
+> {}
+
+export class baseTableColumns {
+  data: ColumnType<any>[]
+  setColumns(item: Array<ColumnType<any>>) {
+    this.data = item
   }
 }

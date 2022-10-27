@@ -1,11 +1,11 @@
 import React from 'react'
-import {
-  baseFormColumnsItem,
-  baseFormTableColumnsItem
-} from '@/components/model/Form/indexType'
 import { HtForm } from '@/components'
 import { Button, Input } from 'antd'
-import { useFormData } from '@/components/model/Form/uitls'
+import {
+  useFormData,
+  baseFormTableColumnsItem,
+  baseFormColumnsItem
+} from '@/components/model/Form/uitls'
 import { deepClone } from 'html-mzc-tool'
 const { ShowText, FormTable } = HtForm
 
