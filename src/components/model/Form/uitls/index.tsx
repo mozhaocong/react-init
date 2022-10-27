@@ -1,5 +1,5 @@
 import { debounce, deepClone, isTrue } from 'html-mzc-tool'
-import { Col, Form, Row, Select } from 'antd'
+import { Button, Col, Form, Row, Select } from 'antd'
 import React, { useRef, useState } from 'react'
 import { getFormValueFromName, setNameToValue, setSlotValueOther } from './tool'
 import { ColumnType } from 'antd/lib/table/interface'
@@ -7,6 +7,7 @@ import {
   columnsItem,
   ColumnTypeForm,
   formListPublicProps,
+  formName,
   formPublicProps,
   formTablePublicProps
 } from '@/components/model/Form/indexType'
@@ -210,7 +211,46 @@ export class baseFormListColumnsItem extends baseFormColumnsItem<
 
 export class baseFormTableColumnsItem extends baseFormColumnsItem<
   ColumnTypeForm<formTablePublicProps>
-> {}
+> {
+  actionButton(item: formTablePublicProps, name: formName): React.ReactElement {
+    const { value, index, setValue } = item
+    const data = getFormValueFromName(value, name)
+    return (
+      <>
+        {data.length !== 1 && (
+          <Button
+            type={'link'}
+            onClick={() => {
+              data.splice(index, 1)
+              setValue(
+                setNameToValue(value, name, () => {
+                  return data
+                })
+              )
+            }}
+          >
+            删除
+          </Button>
+        )}
+        {data.length === index + 1 && (
+          <Button
+            type={'link'}
+            onClick={() => {
+              data.push({})
+              setValue(
+                setNameToValue(value, name, () => {
+                  return data
+                })
+              )
+            }}
+          >
+            添加行
+          </Button>
+        )}
+      </>
+    )
+  }
+}
 
 export class baseTableColumns {
   data: ColumnType<any>[]

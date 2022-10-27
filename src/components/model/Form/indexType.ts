@@ -22,17 +22,19 @@ export interface _FormType extends FormProps {
   valueOtherData?: ObjectMap
 }
 
+export type formName = string | number | Array<string | number>
+
 export interface _FormListType extends _FormType {
   isForm?: boolean // 是否返回带用form 的组件
   columns: Array<columnsItem<formListPublicProps>>
-  formName: string | number | Array<string | number>
+  formName: formName
 }
 
 export interface _FormTableType extends Omit<_FormType, 'columns'> {
   rowKey?: string | GetRowKey<unknown>
   isForm?: boolean // 是否返回带用form 的组件
   columns: Array<ColumnTypeForm<formTablePublicProps>>
-  formName: string | number | Array<string | number>
+  formName: formName
 }
 
 export interface ColumnTypeForm<T>

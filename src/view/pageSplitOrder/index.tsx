@@ -11,15 +11,11 @@ import FormRadio from '@/components/model/FormRadio'
 import FormSelect from '@/components/model/FormSelect'
 const { FormTable, FormItem } = HtForm
 
-const Xuhao = (props) => {
-  return <div>{props.index + 1}</div>
-}
-
 class formTable extends baseFormTableColumnsItem {
   constructor() {
     super()
     this.setColumns([
-      { title: '序号', render: (item) => <Xuhao {...item} /> },
+      { title: '序号', render: (item) => this.serialNumber(item) },
       {
         dataIndex: 'a2',
         title: 'SKU',
@@ -61,31 +57,7 @@ class formTable extends baseFormTableColumnsItem {
         title: '操作',
         width: 200,
         render: (item) => {
-          const { value, index, setValue } = item
-          const cloneData = deepClone(value)
-          const data = value.test1 || []
-          return (
-            <>
-              <Button
-                onClick={() => {
-                  cloneData.test1.splice(index, 1)
-                  setValue(cloneData)
-                }}
-              >
-                删除
-              </Button>
-              {data.length === index + 1 && (
-                <Button
-                  onClick={() => {
-                    cloneData.test1.push({})
-                    setValue(cloneData)
-                  }}
-                >
-                  添加行
-                </Button>
-              )}
-            </>
-          )
+          return this.actionButton(item, 'test1')
         }
       }
     ])
@@ -104,7 +76,15 @@ class formTable2 extends baseFormTableColumnsItem {
         rules: [{ required: true }]
       },
       { dataIndex: 'a3', title: '仓库库存', render: () => <Input /> },
-      { dataIndex: 'a4', title: '出库数', render: () => <Input /> }
+      { dataIndex: 'a4', title: '出库数', render: () => <Input /> },
+      {
+        dataIndex: 'a4',
+        title: '操作',
+        width: 300,
+        render: (item) => {
+          return this.actionButton(item, ['test2', 'b'])
+        }
+      }
     ])
   }
 }
@@ -141,7 +121,7 @@ class form extends baseFormColumnsItem {
       {
         render: (config) => {
           return (
-            <div>
+            <Col span={24}>
               <div>采购产品明细</div>
               <FormTable
                 {...config}
@@ -149,7 +129,7 @@ class form extends baseFormColumnsItem {
                 formName="test1"
                 isForm={false}
               />
-            </div>
+            </Col>
           )
         }
       },
@@ -189,7 +169,6 @@ const View = () => {
   })
   return (
     <div>
-      <div>pageCreate</div>
       <HtForm
         wrapperCol={{ span: 12 }}
         {...attrs}
