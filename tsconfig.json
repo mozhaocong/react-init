@@ -8,7 +8,7 @@
     "target": "esnext",
     "sourceMap": true,
     "jsx": "react-jsx",
-    "types": ["node"],
+    "types": [ "node", "webpack-env"],
     "moduleResolution": "node",
     "paths": {
       "@/*": ["src/*"]

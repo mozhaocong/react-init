@@ -3,6 +3,7 @@ import Timeline from '@/components/model/Timeline'
 import { Button, Card, Divider } from 'antd'
 import FormBasic from '@/components/model/FormBasic'
 import FormSelect from '@/components/model/FormSelect'
+import FormRadio from '@/components/model/FormRadio'
 const View = () => {
   const [reverse, setReverse] = useState(false)
   return (
@@ -25,6 +26,9 @@ const View = () => {
       </Card>
       <Card title="FormSelect">
         <FormSelect prop={'baseStatus'} />
+      </Card>
+      <Card title="FormRadio">
+        <FormRadio prop={'baseStatus'} />
       </Card>
     </div>
   )

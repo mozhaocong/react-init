@@ -1,15 +1,38 @@
 // @ts-ignore
 import React, { useEffect } from 'react'
-import routes from '@/routes'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import routes, { mapRouter } from '@/routes'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import zhCN from 'antd/es/locale/zh_CN'
-import { ConfigProvider } from 'antd'
+import { Button, ConfigProvider } from 'antd'
 import { isTrue } from 'html-mzc-tool'
 
 export function Interceptor(pros) {
   const { route } = pros
   const RenderCom = route.component
   return <RenderCom route={route} />
+}
+
+const RouterButton = () => {
+  const navigate = useNavigate()
+  const data = []
+  for (const mapKey in mapRouter) {
+    data.push({ title: mapKey })
+  }
+  return (
+    <div>
+      {data.map((item) => {
+        return (
+          <Button
+            onClick={() => {
+              navigate(item.title)
+            }}
+          >
+            {item.title}
+          </Button>
+        )
+      })}
+    </div>
+  )
 }
 
 const App = () => {
@@ -37,9 +60,9 @@ const App = () => {
   }
 
   return (
-    // @ts-ignore
     <ConfigProvider locale={zhCN}>
       <BrowserRouter>
+        <RouterButton />
         <Routes>{setRouter()}</Routes>
       </BrowserRouter>
     </ConfigProvider>
