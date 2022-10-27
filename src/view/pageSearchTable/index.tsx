@@ -61,14 +61,7 @@ export const pageSate = {
     slotType: 'selectOption', // 组件模式
     component: (item) => {
       console.log('item', item)
-      return (
-        <RangePicker
-          format="YYYY-MM-DD"
-          onChange={(value) => {
-            console.log(value)
-          }}
-        />
-      )
+      return <RangePicker format="YYYY-MM-DD" />
     },
     slotList: [
       { label: '创建时间', key: 'createTime' },

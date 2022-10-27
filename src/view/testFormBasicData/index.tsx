@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button } from 'antd'
-import FormBasic from '@/components/model/FormBasic'
+import FormBasic from '@/components/business/FormBasic'
 
 const View = () => {
   return (

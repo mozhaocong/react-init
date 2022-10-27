@@ -92,7 +92,6 @@ const View = (props: searchTableType) => {
         }
       },
       setSearchData(item) {
-        console.log('adsasd', item)
         let data = deepClone(item)
         if (isTrue(setItemList)) {
           setItemList.forEach((res) => {

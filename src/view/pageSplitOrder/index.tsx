@@ -7,8 +7,8 @@ import { HtForm } from '@/components'
 import { Button, Col, Input } from 'antd'
 import { useFormData } from '@/components/model/Form/uitls'
 import { deepClone, isTrue, debounce } from 'html-mzc-tool'
-import FormRadio from '@/components/model/FormRadio'
-import FormSelect from '@/components/model/FormSelect'
+import FormRadio from '@/components/business/FormRadio'
+import FormSelect from '@/components/business/FormSelect'
 const { FormTable, FormItem } = HtForm
 
 class formTable extends baseFormTableColumnsItem {

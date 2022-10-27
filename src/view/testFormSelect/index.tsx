@@ -1,5 +1,5 @@
 import React from 'react'
-import FormSelect from '@/components/model/FormSelect'
+import FormSelect from '@/components/business/FormSelect'
 const View = () => {
   return <FormSelect prop={'supplierSplitType'} />
 }

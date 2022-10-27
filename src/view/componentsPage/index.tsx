@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Timeline from '@/components/model/Timeline'
 import { Button, Card, Divider } from 'antd'
-import FormBasic from '@/components/model/FormBasic'
-import FormSelect from '@/components/model/FormSelect'
-import FormRadio from '@/components/model/FormRadio'
+import FormBasic from '@/components/business/FormBasic'
+import FormSelect from '@/components/business/FormSelect'
+import FormRadio from '@/components/business/FormRadio'
 const View = () => {
   const [reverse, setReverse] = useState(false)
 

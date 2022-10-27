@@ -3,7 +3,7 @@ import { Radio } from 'antd'
 import {
   configBusinessDataOptions,
   configBusinessDataOptionsType
-} from '@/components/model/FormSelect/config'
+} from '../FormSelect/config'
 import { RadioGroupProps } from 'antd/lib/radio/interface'
 import { isTrue } from 'html-mzc-tool'
 
