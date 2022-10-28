@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import HtForm from '../Form'
 import { _FormType } from '../Form/indexType'
 import { Table } from 'antd'
-import { useRequest } from './hooks'
+import { setOptionsDefData, useRequest } from './hooks'
 import { isArray, isTrue, deepClone } from 'html-mzc-tool'
 import CheckedTag, { listSearchType } from './model/CheckedTag'
 import Search from './model/Search'
@@ -38,7 +38,7 @@ type searchTableType = {
   }
 }
 
-const View = (props: searchTableType) => {
+let View = (props: searchTableType) => {
   const {
     search: propsSearch,
     table: propsTable,
@@ -175,5 +175,9 @@ const View = (props: searchTableType) => {
     </div>
   )
 }
-
-export default React.memo(View)
+View = React.memo(View)
+export default View as typeof View & {
+  setOptionsDefData: typeof setOptionsDefData
+}
+// @ts-ignore
+View.setOptionsDefData = setOptionsDefData

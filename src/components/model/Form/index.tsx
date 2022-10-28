@@ -1,13 +1,17 @@
 import { Form, Row, Spin } from 'antd'
 import React, { useEffect, useRef } from 'react'
-import { useFormData } from './uitls'
+import { useFormData, setFormColumnsSlotName } from './uitls'
 import FormItem from './components/formItem'
 import FormList from './components/formList'
 import FormTable from './components/formTable'
 import { _FormType } from './indexType'
 import { isTrue } from 'html-mzc-tool'
+import {
+  setFormNameToValue,
+  setSlotValueOther
+} from '@/components/model/Form/uitls/tool'
 
-let _Form: any = (props: _FormType) => {
+let _Form = (props: _FormType) => {
   const {
     fId,
     loading,
@@ -117,15 +121,34 @@ let _Form: any = (props: _FormType) => {
 }
 
 _Form = React.memo(_Form)
-export { _Form as default }
+export default _Form as typeof _Form & {
+  useFormData: typeof useFormData
+  FormList: typeof FormList
+  FormItem: typeof FormItem
+  FormTable: typeof FormTable
+  ShowText: typeof ShowText
+  setFormColumnsSlotName: typeof setFormColumnsSlotName
+  setSlotValueOther: typeof setSlotValueOther
+  setFormNameToValue: typeof setFormNameToValue
+}
 
 const ShowText = (props) => {
   return <div>{props.value}</div>
 }
 // 大写是组件 小写是方法
+// @ts-ignore
 _Form.useFormData = useFormData
+// @ts-ignore
 _Form.FormList = FormList
+// @ts-ignore
 _Form.FormItem = FormItem
+// @ts-ignore
 _Form.FormTable = FormTable
-_Form.FormItem = FormItem
+// @ts-ignore
 _Form.ShowText = ShowText
+// @ts-ignore
+_Form.setFormColumnsSlotName = setFormColumnsSlotName
+// @ts-ignore
+_Form.setSlotValueOther = setSlotValueOther
+// @ts-ignore
+_Form.setFormNameToValue = setFormNameToValue

@@ -2,10 +2,8 @@ import React, { useMemo, useState } from 'react'
 import { Button } from 'antd'
 import { formRows, pageSate } from '@/view/testForm/configData'
 import { HtForm } from '@/components'
-import {
-  setFormColumnsSlotName,
-  useFormData
-} from '@/components/model/Form/uitls'
+const { useFormData } = HtForm
+import { setFormColumnsSlotName } from '@/components/model/Form/uitls'
 
 const App = () => {
   const [form, seForm] = useState()
@@ -30,7 +28,6 @@ const App = () => {
       />
       <Button
         onClick={() => {
-          // setValue({ name: 456 })
           console.log('value', valueData)
         }}
       >
