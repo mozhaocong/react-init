@@ -3,8 +3,8 @@ import counterSlice from './features/counterSlice'
 import businessSlice from '@/store/features/business'
 
 export default configureStore({
-  reducer: {
-    counter: counterSlice,
-    business: businessSlice
-  }
+	reducer: {
+		counter: counterSlice,
+		business: businessSlice
+	}
 })

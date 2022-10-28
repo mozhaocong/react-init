@@ -1,5 +1,5 @@
 type ObjectMap<Key extends string | number | symbol = any, Value = any> = {
-  [key in Key]: Value
+	[key in Key]: Value
 }
 declare module '*.svg'
 declare module '*.png'

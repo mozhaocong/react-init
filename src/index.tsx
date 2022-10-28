@@ -8,20 +8,20 @@ import { Provider } from 'react-redux'
 import store from '@/store/index'
 
 axiosInit({
-  setConfigHeaders() {
-    const data = localStorage.getItem('Authorization')
-    return isTrue(data) ? { Authorization: data } : {}
-  }
+	setConfigHeaders() {
+		const data = localStorage.getItem('Authorization')
+		return isTrue(data) ? { Authorization: data } : {}
+	}
 })
 
 function appInit() {
-  // axiosInit()
-  // ReactDOM.render(<App />, document.getElementById('app'))
-  ReactDOM.createRoot(document.getElementById('app')).render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
+	// axiosInit()
+	// ReactDOM.render(<App />, document.getElementById('app'))
+	ReactDOM.createRoot(document.getElementById('app')).render(
+		<Provider store={store}>
+			<App />
+		</Provider>
+	)
 }
 
 appInit()
