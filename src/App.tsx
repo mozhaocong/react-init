@@ -1,5 +1,5 @@
 // @ts-ignore
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import routes, { mapRouter } from '@/routes'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import zhCN from 'antd/es/locale/zh_CN'
@@ -8,6 +8,7 @@ import { isTrue } from 'html-mzc-tool'
 
 export function Interceptor(pros) {
 	const { route } = pros
+	console.log('route', route)
 	const RenderCom = route.component
 	return <RenderCom route={route} />
 }
@@ -53,7 +54,9 @@ const App = () => {
 		<ConfigProvider locale={zhCN}>
 			<BrowserRouter>
 				<RouterButton />
-				<Routes>{setRouter()}</Routes>
+				<Suspense>
+					<Routes>{setRouter()}</Routes>
+				</Suspense>
 			</BrowserRouter>
 		</ConfigProvider>
 	)

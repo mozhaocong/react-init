@@ -15,6 +15,7 @@ const App = () => {
 		name: 'ASGASGA'
 	})
 
+	console.log('1')
 	return (
 		<div>
 			{/*<HtSelect options={configBusinessDataOptions.integralType} />*/}

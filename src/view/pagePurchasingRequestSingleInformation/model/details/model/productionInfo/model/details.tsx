@@ -3,7 +3,7 @@ import React from 'react'
 import { HtForm } from '@/components'
 import { baseFormColumnsItem, baseTableColumns } from 'react-mzc-components'
 import { Table } from 'antd'
-import { mockDataSource } from '@/uitls/model/business'
+import { mockDataSource } from '@/utils/model/business'
 const { ShowText, useFormData } = HtForm
 class Form extends baseFormColumnsItem {
 	constructor() {

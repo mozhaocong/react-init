@@ -1,7 +1,7 @@
 // 原料出库信息
 import { baseTableColumns } from 'react-mzc-components'
 import { Table } from 'antd'
-import { mockDataSource } from '@/uitls/model/business'
+import { mockDataSource } from '@/utils/model/business'
 import React from 'react'
 
 class table extends baseTableColumns {

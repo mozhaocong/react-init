@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Table } from 'antd'
 import { baseTableColumns } from 'react-mzc-components'
-import { mockDataSource } from '@/uitls/model/business'
+import { mockDataSource } from '@/utils/model/business'
 
 class table extends baseTableColumns {
 	constructor() {
