@@ -6,7 +6,7 @@ context.keys()
 // 通过遍历数组加载模块
 export const mapRouter = {}
 context.keys().forEach(filename => {
-	console.log(filename)
+	// console.log(filename)
 	const data = filename.split('/')
 	if (data.length === 2) {
 		mapRouter[filename.replace('./', '')] = context(filename)

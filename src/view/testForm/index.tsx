@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { Button } from 'antd'
-import { formRows, pageSate } from '@/view/testForm/configData'
+import { formRows } from '@/view/testForm/configData'
 import { HtForm } from '@/components'
 const { useFormData } = HtForm
-const { setFormColumnsSlotName } = HtForm
 
 const App = () => {
 	const [form, seForm] = useState()
@@ -19,14 +18,7 @@ const App = () => {
 	return (
 		<div>
 			{/*<HtSelect options={configBusinessDataOptions.integralType} />*/}
-			<HtForm
-				propsForm={seForm}
-				columns={setFormColumnsSlotName(formData, pageSate)}
-				value={value}
-				onChange={setValue}
-				setValue={setValue}
-				valueData={valueData}
-			/>
+			<HtForm propsForm={seForm} columns={formData} value={value} onChange={setValue} setValue={setValue} valueData={valueData} />
 			<Button
 				onClick={() => {
 					console.log('value', valueData)
