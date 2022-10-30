@@ -84,6 +84,6 @@ export interface searchColumnsItem extends columnsItem<formPublicProps> {
 		component?: (item: formPublicProps) => React.ReactElement
 		slotList: { label: string; key: string; component?: (item: formPublicProps) => React.ReactElement }[]
 	}
-	setChecked?: (item: ObjectMap) => React.ReactElement
+	setChecked?: (item: ObjectMap) => React.ReactElement | string | number
 	setSearchData?: (item: ObjectMap, nameData?: any) => ObjectMap
 }

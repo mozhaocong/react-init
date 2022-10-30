@@ -1,22 +1,15 @@
 import React, { Fragment, useMemo } from 'react'
-import { deepClone, isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
+import { deepClone, isNumber, isString, isTrue } from 'html-mzc-tool'
 import { Tag } from 'antd'
 import { getFormValueFromName, setFormNameToValue } from '../../Form/uitls/tool'
-
-type checkedName = string | number | Array<string | number>
 
 export type listSearchType = {
 	value: ObjectMap
 	columns: columnType[]
-	setItemList?: {
-		name: checkedName
-		setChecked?: (item: tagItemType) => React.ReactElement
-		[index: string]: any
-	}[]
 	valueOtherData?: { value: ObjectMap }
 }
 
-type columnType = { label: string; name: string }
+type columnType = { label: string; name: string; setChecked?: any }
 export type tagItemType = Omit<listSearchType, 'columns'> & columnType & { onSearch: (item) => void; nameData: any }
 
 const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: ObjectMap) => void }) => {
@@ -44,12 +37,21 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 		onSearch(data)
 	}
 	function getTag(item: tagItemType) {
-		// @ts-ignore
-		const { label, nameData, setChecked } = item
-		if (!(isString(nameData) && isTrue(label))) {
-			if (isTrue(setChecked)) {
-				return setChecked(item)
+		const { label, setChecked } = item
+		let { nameData } = item
+		let checkedData = ''
+		if (isTrue(setChecked)) {
+			checkedData = setChecked(item)
+			if (!isTrue(checkedData)) {
+				if (isString(checkedData) || isNumber(checkedData)) {
+					nameData = checkedData
+				} else {
+					return checkedData
+				}
 			}
+		}
+
+		if (!(isString(nameData) && isTrue(label))) {
 			return <></>
 		}
 		return (
