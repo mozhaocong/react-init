@@ -12,7 +12,6 @@ context.keys().forEach(filename => {
 		mapRouter[filename.replace('./', '')] = context(filename)
 	}
 })
-1
 
 const routes: any = [
 	{
