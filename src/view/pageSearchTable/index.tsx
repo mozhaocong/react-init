@@ -23,32 +23,6 @@ class searchColumn extends baseSearchColumnsItem {
 			{ label: '订单类型', name: 'type', component: () => <Input /> },
 			{ label: '发货方式', name: 'delivery_type', component: () => <Input /> },
 			{
-				name: 'spPlatformSelect',
-				selectSlot: {
-					selectNane: 'spPlatformSelect', // form表单的Name
-					optionNane: 'spPlatformOption',
-					initialValue: {
-						select: 'sellerSku'
-					},
-					placeholder: 'Select province',
-					component: () => {
-						return <Input />
-					},
-					slotList: [
-						{ label: '创建人', key: 'sku' },
-						{ label: '销售负责人', key: 'sellerSku' }
-					]
-				},
-				setChecked: (item: any) => {
-					return this.baseSetChecked({
-						item: item,
-						label: 'spPlatformSelectLabel',
-						text: 'spPlatformOption',
-						closeName: 'spPlatformOption'
-					})
-				}
-			},
-			{
 				name: 'rangePicker',
 				selectSlot: {
 					selectNane: ['rangePicker', 'type'], // form表单的Name
@@ -68,11 +42,11 @@ class searchColumn extends baseSearchColumnsItem {
 					return this.baseSetChecked({
 						item: item,
 						label: 'typeLabel',
-						setOption(item, nameData) {
-							const data =
-								nameData?.value?.map(res => {
-									return moment(res).format('YYYY-MM-DD')
-								}) || []
+						setOption: (item, nameData) => {
+							const data = this.momentToArray(nameData?.value)
+							// nameData?.value?.map(res => {
+							// 	return moment(res).format('YYYY-MM-DD')
+							// }) || []
 							return data.join(',')
 						},
 						closeName: ['rangePicker', 'value'],

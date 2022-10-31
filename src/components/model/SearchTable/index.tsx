@@ -133,7 +133,7 @@ let View = (props: searchTableType) => {
 		<div>
 			<div>View</div>
 			<Search
-				// loading={loading}
+				loading={loading}
 				fId={fId}
 				value={value}
 				valueData={valueData}
