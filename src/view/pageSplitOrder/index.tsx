@@ -1,13 +1,13 @@
-import React from 'react'
-import { baseFormColumnsItem, baseFormTableColumnsItem } from 'react-mzc-components'
-import { HtForm } from '@/components'
 import { Button, Col, Input } from 'antd'
-import { deepClone, isTrue, debounce } from 'html-mzc-tool'
+import { debounce, deepClone, isTrue } from 'html-mzc-tool'
+import React from 'react'
+
+import { BaseFormColumnsItem, BaseFormTableColumnsItem, HtForm } from '@/components'
 import FormRadio from '@/components/business/FormRadio'
 import FormSelect from '@/components/business/FormSelect'
 const { FormTable, FormItem, useFormData } = HtForm
 
-class formTable extends baseFormTableColumnsItem {
+class formTable extends BaseFormTableColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
@@ -60,7 +60,7 @@ class formTable extends baseFormTableColumnsItem {
 	}
 }
 
-class formTable2 extends baseFormTableColumnsItem {
+class formTable2 extends BaseFormTableColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
@@ -101,7 +101,7 @@ function setFormTableValue(data, value, setValue) {
 
 const debounceSetFormTableValue = debounce(setFormTableValue, 10)
 
-class form extends baseFormColumnsItem {
+class form extends BaseFormColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([

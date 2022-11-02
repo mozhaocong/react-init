@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react'
 import { Input, Tag } from 'antd'
 import { axiosGet, isTrue } from 'html-mzc-tool'
+import React, { useMemo, useState } from 'react'
 
-import { baseSearchCheckedListSearch, baseSearchColumnsItem, CheckBox, SearchTable } from '@/components'
+import { BaseSearchCheckedListSearch, BaseSearchColumnsItem, CheckBox, SearchTable } from '@/components'
 
-class searchColumn extends baseSearchColumnsItem {
+class searchColumn extends BaseSearchColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
@@ -131,7 +131,7 @@ const View = () => {
 			setValue([''])
 		}
 
-		class SearchCheckedListSearch extends baseSearchCheckedListSearch {
+		class SearchCheckedListSearch extends BaseSearchCheckedListSearch {
 			constructor() {
 				super()
 				this.setColumns(this.simpleCheckListSearch([{ name: 'test12', value, setValue, label: '测试点击', options, setOptions }]))

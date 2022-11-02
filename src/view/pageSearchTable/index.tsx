@@ -1,7 +1,8 @@
-import React from 'react'
+import { DatePicker, Input } from 'antd'
 import { axiosGet } from 'html-mzc-tool'
-import { Input, DatePicker } from 'antd'
-import { SearchTable, baseSearchColumnsItem } from '@/components'
+import React from 'react'
+
+import { BaseSearchColumnsItem, SearchTable } from '@/components'
 const { RangePicker } = DatePicker
 import moment from 'moment'
 
@@ -9,7 +10,7 @@ function orders(data = {}) {
 	return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
 }
 
-class searchColumn extends baseSearchColumnsItem {
+class searchColumn extends BaseSearchColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
