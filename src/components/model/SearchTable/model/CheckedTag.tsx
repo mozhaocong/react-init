@@ -22,7 +22,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 			columns.forEach(res => {
 				const nameData = getFormValueFromName(value, res.name)
 				if (isTrue(nameData)) {
-					data.push(deepClone({ ...res, ...attrs, value, nameData, onSearch }))
+					data.push(deepClone({ ...attrs, ...res, value, nameData, onSearch }))
 				}
 			})
 		})
@@ -51,7 +51,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 			}
 		}
 
-		if (!(isString(nameData) && isTrue(label))) {
+		if (!((isString(nameData) || isNumber(nameData)) && isTrue(label))) {
 			return <></>
 		}
 		return (

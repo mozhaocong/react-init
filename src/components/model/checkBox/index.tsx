@@ -3,25 +3,18 @@ import './index.less'
 import { deepClone, isTrue } from 'html-mzc-tool'
 
 type valeType = Array<string | number>
+type optionsType = { value: string | number; label: string }[]
 type propsType = {
 	allBox?: boolean
 	isRadio?: boolean
-	options: { value: string | number; label: string }[]
+	options: optionsType
 	value?: valeType
 	defaultValue?: valeType
-	onChange?: (item: valeType) => void
+	onChange?: (item: valeType, options?: optionsType) => void
 	onChangeLabel?: (item: valeType) => void
 }
 const View = (props: propsType) => {
-	const {
-		allBox = true,
-		isRadio = false,
-		value: propsValue,
-		defaultValue: propsDefaultValue = [],
-		onChange,
-		onChangeLabel,
-		options: propsOptions
-	} = props
+	const { allBox = true, isRadio = false, value: propsValue, defaultValue: propsDefaultValue = [], onChange, options: propsOptions } = props
 
 	const [defaultValue, setValue] = useState<any[]>(propsDefaultValue)
 
@@ -53,17 +46,14 @@ const View = (props: propsType) => {
 		if (!isTrue(valueData)) {
 			valueData.push('')
 		}
-		const labelData = []
+		const optionData = []
 		options.forEach(item => {
 			if (valueData.includes(item.value)) {
-				labelData.push(item.label)
+				optionData.push(item)
 			}
 		})
 		if (onChange) {
-			onChange(valueData)
-		}
-		if (onChangeLabel) {
-			onChangeLabel(labelData)
+			onChange(valueData, optionData)
 		}
 		setValue(valueData)
 	}
